@@ -1,0 +1,9 @@
+.gradle/
+build/
+node_modules/
+frontend/dist/
+*.log
+.idea/
+.vscode/
+*.iml
+.DS_Store

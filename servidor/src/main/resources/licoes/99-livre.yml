@@ -1,0 +1,46 @@
+id: livre
+titulo: Modo Livre
+emoji: "🎨"
+cor: "#636e72"
+descricao: Um mapa grande para inventar o que quiser.
+oculto: true
+licoes:
+
+  - id: livre
+    titulo: Modo Livre
+    livre: true
+    maxAcoes: 3000
+    historia: |
+      Aqui não tem missão: o mapa é todo seu! 🎨 Explore, pegue moedas e invente programas.
+    explicacao: |
+      **Comandos do robô:**
+
+      - `robo.andar();` `robo.virarEsquerda();` `robo.virarDireita();`
+      - `robo.pegarMoeda();` `robo.falar("...");`
+
+      **Perguntas do robô** (respondem `true` ou `false`):
+
+      - `robo.frenteLivre()` `robo.esquerdaLivre()` `robo.direitaLivre()`
+      - `robo.temMoeda()` `robo.chegou()`
+
+      E também: `robo.getMoedas()` responde quantas moedas o robô já pegou.
+    dica: |
+      Que tal tentar pegar todas as moedas do mapa usando o truque da mão direita do labirinto?
+    codigoInicial: |
+      // Escreva o que quiser!
+      robo.falar("Vamos explorar!");
+      while (robo.frenteLivre()) {
+          robo.andar();
+      }
+    solucao: |
+      robo.andar();
+    mapa:
+      - "##############"
+      - "#R....#......#"
+      - "#.##..#..MM..#"
+      - "#.#M......##.#"
+      - "#.#####.#....#"
+      - "#...M...#.M#.#"
+      - "###.###.####.#"
+      - "#M....M.....F#"
+      - "##############"

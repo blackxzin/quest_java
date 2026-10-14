@@ -1,0 +1,335 @@
+id: metodos
+titulo: Comandos Próprios
+emoji: "🧩"
+cor: "#0984e3"
+descricao: Descubra o programa Java completo e crie seus próprios comandos (métodos).
+licoes:
+
+  - id: caixa-secreta
+    titulo: A caixa secreta
+    modo: completo
+    historia: |
+      Psiu... 🤫 Até agora o JavaQuest estava **escondendo** uma parte do programa!
+      Chegou a hora de ver o programa Java **de verdade**, inteirinho.
+    explicacao: |
+      Todo programa Java tem esta cara:
+
+      ```java
+      import jogo.*;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              robo.andar();
+          }
+      }
+      ```
+
+      Vamos abrir a caixa:
+
+      - `import jogo.*;` → traz as peças do jogo (o `Robo`). É como pegar a caixa de blocos de montar. 🧱
+      - `public class Missao` → a **classe** é a caixa onde mora o programa. O nome começa com letra maiúscula.
+      - `public static void main(String[] args)` → a **porta de entrada**! O Java sempre começa por aqui.
+      - `Robo robo = new Robo();` → **cria** o robô. Você vai entender o `new` na Fábrica de Robôs! 🏭
+      - `{ }` → as chaves abrem e fecham cada caixa. Toda `{` precisa do seu `}`.
+
+      Não precisa decorar o `public static void main(String[] args)` agora.
+      Até programadores experientes copiam no começo! Com o tempo fica natural.
+    dica: |
+      Dentro do main, depois de criar o robô: ande 2, pegue a moeda, ande mais 2.
+    codigoInicial: |
+      import jogo.*;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              robo.andar();
+              // Continue aqui: pegue a moeda e chegue na bandeira!
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              robo.andar();
+              robo.andar();
+              robo.pegarMoeda();
+              robo.andar();
+              robo.andar();
+          }
+      }
+    mapa:
+      - "#######"
+      - "#R.M.F#"
+      - "#######"
+    objetivos:
+      - tipo: moedas
+      - tipo: chegar
+
+  - id: meu-comando
+    titulo: Crie seu próprio comando
+    modo: completo
+    historia: |
+      O Byte vai dar uma volta no quarteirão: são 3 lados, e cada lado tem **4 passos**.
+      Que tal inventar um comando novo chamado `andarQuatro()`? ✨
+    explicacao: |
+      Um **método** é um comando que **você** inventa! Você dá um nome para um grupo de ordens
+      e depois usa esse nome quantas vezes quiser.
+
+      ```java
+      static void pular() {
+          robo.falar("Pulei!");
+          robo.falar("Pulei de novo!");
+      }
+      ```
+
+      - `static void` → por enquanto, escreva sempre assim (o `void` quer dizer "não devolve nada")
+      - `pular` → o nome do seu comando
+      - `()` → os parênteses
+      - `{ }` → as ordens que o comando faz
+
+      Para usar: escreva `pular();` dentro do main.
+
+      Repare que agora o robô é criado **fora** do main, com `static Robo robo = new Robo();`.
+      Assim todos os métodos da classe conseguem enxergar o robô!
+    dica: |
+      Dentro do método andarQuatro, escreva `robo.andar();` quatro vezes.
+      No main: andarQuatro, pegarMoeda, virarDireita, andarQuatro, pegarMoeda, virarDireita, andarQuatro.
+    codigoInicial: |
+      import jogo.*;
+
+      public class Missao {
+          static Robo robo = new Robo();
+
+          static void andarQuatro() {
+              // Ensine aqui: andar 4 vezes
+          }
+
+          public static void main(String[] args) {
+              andarQuatro();
+              robo.pegarMoeda();
+              // Continue a volta...
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      public class Missao {
+          static Robo robo = new Robo();
+
+          static void andarQuatro() {
+              robo.andar();
+              robo.andar();
+              robo.andar();
+              robo.andar();
+          }
+
+          public static void main(String[] args) {
+              andarQuatro();
+              robo.pegarMoeda();
+              robo.virarDireita();
+              andarQuatro();
+              robo.pegarMoeda();
+              robo.virarDireita();
+              andarQuatro();
+          }
+      }
+    mapa:
+      - "#######"
+      - "#R...M#"
+      - "#.###.#"
+      - "#.###.#"
+      - "#.###.#"
+      - "#F...M#"
+      - "#######"
+    objetivos:
+      - tipo: moedas
+      - tipo: chegar
+    requisitos:
+      - padrao: 'static\s+void\s+(?!main\b)\w+\s*\('
+        mensagem: Crie um método seu, como static void andarQuatro().
+      - padrao: 'andar\s*\('
+        maximo: 4
+        mensagem: Use o seu comando andarQuatro() em vez de escrever robo.andar() muitas vezes.
+
+  - id: parametros
+    titulo: Comandos com parâmetros
+    modo: completo
+    historia: |
+      Cada pedaço do caminho tem um tamanho diferente: 5, depois 3, depois 2.
+      E se o comando pudesse **receber** quantos passos dar? 🎯
+    explicacao: |
+      Um **parâmetro** é um espaço para mandar uma informação para o método.
+      É como pedir "pule **3** vezes": o 3 é o parâmetro!
+
+      ```java
+      static void pular(int vezes) {
+          for (int i = 0; i < vezes; i++) {
+              robo.falar("Pulei!");
+          }
+      }
+      ```
+
+      - `int vezes` → o método recebe um número e guarda numa caixinha chamada `vezes`
+      - Para usar: `pular(3);` → dentro do método, `vezes` vale 3
+      - Depois: `pular(10);` → agora `vezes` vale 10
+
+      Um único método, que funciona para qualquer número. Isso é programar bem! 💪
+    dica: |
+      Dentro de andarVarios, use `for (int i = 0; i < passos; i++) { robo.andar(); }`.
+      No main: andarVarios(5), pegarMoeda, virarDireita, andarVarios(3), virarEsquerda, andarVarios(2).
+    codigoInicial: |
+      import jogo.*;
+
+      public class Missao {
+          static Robo robo = new Robo();
+
+          static void andarVarios(int passos) {
+              // Use um for para andar "passos" vezes
+          }
+
+          public static void main(String[] args) {
+              andarVarios(5);
+              robo.pegarMoeda();
+              // Continue...
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      public class Missao {
+          static Robo robo = new Robo();
+
+          static void andarVarios(int passos) {
+              for (int i = 0; i < passos; i++) {
+                  robo.andar();
+              }
+          }
+
+          public static void main(String[] args) {
+              andarVarios(5);
+              robo.pegarMoeda();
+              robo.virarDireita();
+              andarVarios(3);
+              robo.virarEsquerda();
+              andarVarios(2);
+          }
+      }
+    mapa:
+      - "##########"
+      - "#R....M###"
+      - "######.###"
+      - "######.###"
+      - "######..F#"
+      - "##########"
+    objetivos:
+      - tipo: moedas
+      - tipo: chegar
+    requisitos:
+      - padrao: 'static\s+void\s+\w+\s*\(\s*int\s+\w+'
+        mensagem: Crie um método que recebe um int, como static void andarVarios(int passos).
+      - padrao: 'robo\.andar\s*\('
+        maximo: 1
+        mensagem: Escreva robo.andar() só uma vez, dentro do método andarVarios.
+
+  - id: retorno
+    titulo: Métodos que respondem
+    modo: completo
+    historia: |
+      O Byte quer um comando que ande até a parede, pegue as moedas e **responda** quantas pegou.
+      E o número de moedas muda em cada mundo! 🎲
+    explicacao: |
+      Um método pode **devolver** uma resposta com o `return`:
+
+      ```java
+      static int dobro(int n) {
+          return n * 2;
+      }
+      ```
+
+      - Em vez de `void`, escrevemos o **tipo da resposta**: `int` (um número)
+      - `return` → "entregue esta resposta e termine o método"
+
+      Quem chama o método recebe a resposta e pode guardar numa caixinha:
+
+      ```java
+      int resultado = dobro(4);   // resultado vale 8
+      ```
+
+      É como perguntar algo para um amigo: você pergunta, ele pensa e **responde**. 💬
+    dica: |
+      Dentro do while do método coletar, escreva:
+      `if (robo.temMoeda()) { robo.pegarMoeda(); moedas++; }`
+    codigoInicial: |
+      import jogo.*;
+
+      public class Missao {
+          static Robo robo = new Robo();
+
+          // Este método anda até a parede, pega as moedas e DEVOLVE quantas pegou
+          static int coletar() {
+              int moedas = 0;
+              while (robo.frenteLivre()) {
+                  robo.andar();
+                  // Se tiver moeda, pegue e conte!
+              }
+              return moedas;
+          }
+
+          public static void main(String[] args) {
+              int total = coletar();
+              robo.falar("Total: " + total);
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      public class Missao {
+          static Robo robo = new Robo();
+
+          static int coletar() {
+              int moedas = 0;
+              while (robo.frenteLivre()) {
+                  robo.andar();
+                  if (robo.temMoeda()) {
+                      robo.pegarMoeda();
+                      moedas++;
+                  }
+              }
+              return moedas;
+          }
+
+          public static void main(String[] args) {
+              int total = coletar();
+              robo.falar("Total: " + total);
+          }
+      }
+    mundos:
+      - mapa:
+          - "########"
+          - "#RM.MM.#"
+          - "########"
+        objetivos:
+          - tipo: falar
+            texto: "Total: 3"
+      - mapa:
+          - "##########"
+          - "#R.M...M.#"
+          - "##########"
+        objetivos:
+          - tipo: falar
+            texto: "Total: 2"
+      - mapa:
+          - "#######"
+          - "#RMMMM#"
+          - "#######"
+        objetivos:
+          - tipo: falar
+            texto: "Total: 4"
+    objetivos:
+      - tipo: moedas
+    requisitos:
+      - padrao: '\breturn\b'
+        mensagem: O método precisa devolver a resposta com return.

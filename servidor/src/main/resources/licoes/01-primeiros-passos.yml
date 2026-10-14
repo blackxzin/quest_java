@@ -1,0 +1,169 @@
+id: primeiros-passos
+titulo: Primeiros Passos
+emoji: "👣"
+cor: "#7c5cff"
+descricao: Dê as primeiras ordens para o Byte andar, virar, pegar moedas e falar.
+licoes:
+
+  - id: ola-byte
+    titulo: Olá, Byte!
+    historia: |
+      Este é o **Byte**, um robozinho explorador! 🤖
+      Ele quer muito chegar na bandeira 🚩, mas só se mexe quando você manda.
+    explicacao: |
+      Um **programa** é uma lista de ordens para o computador. Ele faz uma ordem de cada vez,
+      **de cima para baixo**, como quem segue uma receita de bolo. 🎂
+
+      Para o Byte andar **um** quadradinho, a ordem é:
+
+      ```java
+      robo.andar();
+      ```
+
+      Vamos olhar cada pedacinho:
+
+      - `robo` → **quem** vai fazer (o nosso Byte)
+      - `.` → o ponto liga *quem faz* com *o que fazer*
+      - `andar` → **o que** fazer
+      - `()` → os parênteses querem dizer "faça agora!"
+      - `;` → o ponto e vírgula é o **ponto final** da ordem
+
+      Para andar mais, escreva a ordem de novo, na linha de baixo!
+    dica: |
+      Conte os quadradinhos entre o Byte e a bandeira: são 4.
+      Escreva `robo.andar();` uma vez para cada quadradinho (uma ordem em cada linha).
+    codigoInicial: |
+      robo.andar();
+    solucao: |
+      robo.andar();
+      robo.andar();
+      robo.andar();
+      robo.andar();
+    mapa:
+      - "#######"
+      - "#R...F#"
+      - "#######"
+    objetivos:
+      - tipo: chegar
+
+  - id: virando
+    titulo: Virando a esquina
+    historia: |
+      O caminho agora faz uma curva! Se o Byte só andar para a frente, vai dar de cara com a parede. 💥
+    explicacao: |
+      O Byte sabe girar no lugar, como você quando gira sem sair do chão:
+
+      ```java
+      robo.virarDireita();
+      robo.virarEsquerda();
+      ```
+
+      Atenção: a direita e a esquerda são **do Byte**, para onde ele está olhando,
+      e não da tela! Repare nos olhinhos dele 👀: eles mostram para onde ele olha.
+
+      Virar **não anda**. Depois de virar, use `robo.andar();` para seguir em frente.
+    dica: |
+      Ande 2 quadradinhos, vire para a direita (o Byte vai ficar olhando para baixo)
+      e ande mais 2 até a bandeira.
+    codigoInicial: |
+      robo.andar();
+      robo.andar();
+      // Agora vire e continue o caminho...
+    solucao: |
+      robo.andar();
+      robo.andar();
+      robo.virarDireita();
+      robo.andar();
+      robo.andar();
+    mapa:
+      - "######"
+      - "#R..##"
+      - "###.##"
+      - "###F##"
+      - "######"
+    objetivos:
+      - tipo: chegar
+
+  - id: cacando-moedas
+    titulo: Caça às moedas
+    historia: |
+      Uau, moedas brilhantes no caminho! 🪙 O Byte quer guardar todas antes de chegar na bandeira.
+    explicacao: |
+      Quando o Byte estiver **em cima** de uma moeda, ele pode pegá-la:
+
+      ```java
+      robo.pegarMoeda();
+      ```
+
+      Mas cuidado: se não tiver moeda embaixo dele, o Byte fica confuso 😵 e o programa para.
+      Então primeiro **ande até a moeda** e só depois pegue.
+
+      Lembre: o computador faz as ordens **na ordem em que você escreveu**.
+    dica: |
+      Ande 2, pegue a moeda, ande mais 2, pegue a outra moeda.
+      Depois ande 1, vire para a direita e ande 1 até a bandeira.
+    codigoInicial: |
+      robo.andar();
+      robo.andar();
+      robo.pegarMoeda();
+    solucao: |
+      robo.andar();
+      robo.andar();
+      robo.pegarMoeda();
+      robo.andar();
+      robo.andar();
+      robo.pegarMoeda();
+      robo.andar();
+      robo.virarDireita();
+      robo.andar();
+    mapa:
+      - "########"
+      - "#R.M.M.#"
+      - "######F#"
+      - "########"
+    objetivos:
+      - tipo: moedas
+      - tipo: chegar
+
+  - id: byte-fala
+    titulo: O Byte fala!
+    historia: |
+      Chegou a hora de o Byte dizer a frase mais famosa da programação: **"Olá, mundo!"** 🌎
+      Quase todo programador do planeta começou assim!
+    explicacao: |
+      Um texto no Java sempre fica entre **aspas duplas**: `"assim"`. Texto tem até um nome
+      especial: **String** (fala-se "estrin").
+
+      Tem dois jeitos de mostrar um texto:
+
+      ```java
+      robo.falar("Oi!");                 // o Byte fala num balãozinho
+      System.out.println("Oi!");         // escreve no Terminal, lá embaixo
+      ```
+
+      O `System.out.println` é o jeito que **todo programador Java** escreve na tela,
+      até os profissionais! O `println` quer dizer "*print line*": imprima uma linha.
+    dica: |
+      Ande 2 quadradinhos. Depois use `robo.falar("Olá, mundo!");`
+      e `System.out.println("Missão cumprida!");` (com S maiúsculo em System).
+    codigoInicial: |
+      robo.andar();
+      robo.andar();
+      // Faça o Byte falar "Olá, mundo!"
+
+      // E escreva "Missão cumprida!" no terminal
+    solucao: |
+      robo.andar();
+      robo.andar();
+      robo.falar("Olá, mundo!");
+      System.out.println("Missão cumprida!");
+    mapa:
+      - "#####"
+      - "#R.F#"
+      - "#####"
+    objetivos:
+      - tipo: chegar
+      - tipo: falar
+        texto: "Olá, mundo!"
+      - tipo: imprimir
+        texto: "Missão cumprida!"

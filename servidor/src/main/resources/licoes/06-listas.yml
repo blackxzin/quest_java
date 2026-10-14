@@ -1,0 +1,173 @@
+id: listas
+titulo: Listas e Arrays
+emoji: "📋"
+cor: "#f9a825"
+descricao: Guarde muitas coisas de uma vez com arrays e ArrayList.
+licoes:
+
+  - id: lista-de-passos
+    titulo: A lista de passos
+    modo: completo
+    historia: |
+      O Byte recebeu um mapa do tesouro com uma **lista de passos**: 4, 3, 2, 1.
+      Depois de cada grupo de passos, vira para a direita. 🗺️
+    explicacao: |
+      Um **array** guarda várias coisas numa caixinha só. Pense numa **prateleira com gavetas numeradas**:
+
+      ```java
+      int[] passos = {4, 3, 2, 1};
+      ```
+
+      - `int[]` → "uma prateleira de números"
+      - As gavetas são numeradas **a partir do zero**! `passos[0]` é 4, `passos[1]` é 3...
+      - `passos.length` → quantas gavetas tem (aqui, 4)
+
+      Para passar por **todas** as gavetas, use o `for` especial (o "para cada"):
+
+      ```java
+      for (int p : passos) {
+          robo.falar(p);
+      }
+      ```
+
+      Leia assim: "**para cada** número `p` dentro de `passos`, fale `p`". O Byte fala 4, 3, 2, 1.
+    dica: |
+      Use dois for, um dentro do outro: `for (int p : passos) { for (int i = 0; i < p; i++) { robo.andar(); } robo.virarDireita(); }`
+    codigoInicial: |
+      import jogo.*;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              int[] passos = {4, 3, 2, 1};
+
+              // passos[0] é 4, passos[1] é 3...
+              for (int i = 0; i < passos[0]; i++) {
+                  robo.andar();
+              }
+              robo.virarDireita();
+              // Use um for para percorrer TODA a lista de passos!
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              int[] passos = {4, 3, 2, 1};
+
+              for (int p : passos) {
+                  for (int i = 0; i < p; i++) {
+                      robo.andar();
+                  }
+                  robo.virarDireita();
+              }
+          }
+      }
+    mapa:
+      - "#######"
+      - "#R....#"
+      - "#####.#"
+      - "###F#.#"
+      - "###...#"
+      - "#######"
+    objetivos:
+      - tipo: chegar
+    requisitos:
+      - padrao: 'int\s*\[\s*\]'
+        mensagem: Use o array int[] passos.
+      - padrao: 'robo\.andar\s*\('
+        maximo: 1
+        mensagem: Escreva robo.andar() uma vez só e deixe os for repetirem!
+
+  - id: lista-de-amigos
+    titulo: A lista de amigos
+    modo: completo
+    historia: |
+      O Byte fez um amigo novo, o **Zeca**! 🎉 Coloque ele na lista e faça o Byte cumprimentar todos.
+    explicacao: |
+      O array tem tamanho fixo. Quando precisamos de uma lista que **cresce**, usamos o `ArrayList`.
+      Pense numa **mochila**: dá para ir colocando coisas dentro! 🎒
+
+      ```java
+      import java.util.ArrayList;
+
+      ArrayList<String> mochila = new ArrayList<>();
+      mochila.add("Lanche");      // coloca na mochila
+      mochila.add("Caderno");
+      mochila.get(0);             // pega o primeiro: "Lanche"
+      mochila.size();             // quantas coisas tem: 2
+      ```
+
+      - `<String>` → diz **o que vai dentro** da lista (aqui, textos)
+      - `import java.util.ArrayList;` → traz o ArrayList para o programa
+
+      E o "para cada" também funciona com ArrayList:
+
+      ```java
+      for (String coisa : mochila) {
+          robo.falar(coisa);
+      }
+      ```
+    dica: |
+      Adicione `amigos.add("Zeca");` junto dos outros. O resto já funciona sozinho!
+    codigoInicial: |
+      import jogo.*;
+      import java.util.ArrayList;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              ArrayList<String> amigos = new ArrayList<>();
+              amigos.add("Ana");
+              amigos.add("Leo");
+              amigos.add("Bia");
+              // Coloque o Zeca na lista!
+
+              for (String amigo : amigos) {
+                  robo.falar("Oi, " + amigo + "!");
+              }
+              robo.falar("Tenho " + amigos.size() + " amigos!");
+          }
+      }
+    solucao: |
+      import jogo.*;
+      import java.util.ArrayList;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              ArrayList<String> amigos = new ArrayList<>();
+              amigos.add("Ana");
+              amigos.add("Leo");
+              amigos.add("Bia");
+              amigos.add("Zeca");
+
+              for (String amigo : amigos) {
+                  robo.falar("Oi, " + amigo + "!");
+              }
+              robo.falar("Tenho " + amigos.size() + " amigos!");
+          }
+      }
+    mapa:
+      - "#####"
+      - "#R..#"
+      - "#####"
+    objetivos:
+      - tipo: falar
+        texto: "Oi, Ana!"
+      - tipo: falar
+        texto: "Oi, Leo!"
+      - tipo: falar
+        texto: "Oi, Bia!"
+      - tipo: falar
+        texto: "Oi, Zeca!"
+      - tipo: falar
+        texto: "Tenho 4 amigos!"
+    requisitos:
+      - padrao: 'ArrayList'
+        mensagem: Use o ArrayList de amigos.
+      - padrao: 'falar\s*\('
+        maximo: 2
+        mensagem: Use o for para cumprimentar todos, em vez de escrever um falar para cada amigo.

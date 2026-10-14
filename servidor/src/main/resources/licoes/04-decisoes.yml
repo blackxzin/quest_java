@@ -1,0 +1,284 @@
+id: decisoes
+titulo: Hora de Decidir
+emoji: "🤔"
+cor: "#e84393"
+descricao: Ensine o Byte a tomar decisões com if, else e comparações.
+licoes:
+
+  - id: se-tiver-moeda
+    titulo: Moedas escondidas
+    historia: |
+      As moedas mudam de lugar em cada mundo! 🎲 O Byte precisa **olhar** antes de pegar.
+    explicacao: |
+      Para tomar uma decisão, usamos o `if`, que quer dizer **"se"**:
+
+      ```java
+      if (robo.temMoeda()) {
+          robo.pegarMoeda();
+      }
+      ```
+
+      Leia assim: "**se** tem moeda, pegue a moeda".
+      O que está dentro das chaves só acontece quando a resposta da pergunta é `true` (sim).
+
+      Juntando com o `while`, o Byte anda pelo corredor inteiro e só pega onde tem moeda:
+
+      ```java
+      while (!robo.chegou()) {
+          robo.andar();
+          // aqui vai o if!
+      }
+      ```
+    dica: |
+      Dentro do while, depois do `robo.andar();`, escreva:
+      `if (robo.temMoeda()) { robo.pegarMoeda(); }`
+    codigoInicial: |
+      // As moedas mudam de lugar em cada mundo!
+      while (!robo.chegou()) {
+          robo.andar();
+          // Se tiver moeda aqui, pegue!
+      }
+    solucao: |
+      while (!robo.chegou()) {
+          robo.andar();
+          if (robo.temMoeda()) {
+              robo.pegarMoeda();
+          }
+      }
+    mundos:
+      - mapa:
+          - "##########"
+          - "#R.M.MM.F#"
+          - "##########"
+      - mapa:
+          - "##########"
+          - "#RM.M..MF#"
+          - "##########"
+      - mapa:
+          - "##########"
+          - "#R..M...F#"
+          - "##########"
+    objetivos:
+      - tipo: moedas
+      - tipo: chegar
+    requisitos:
+      - padrao: 'if\s*\('
+        mensagem: Use um if para pegar só quando tiver moeda.
+
+  - id: parede-ou-caminho
+    titulo: Parede ou caminho?
+    historia: |
+      Os corredores agora fazem curvas em lugares diferentes. O Byte precisa decidir:
+      **se** a frente estiver livre, anda... **senão**, vira! ↩️
+    explicacao: |
+      O `if` pode ter um **plano B**: o `else`, que quer dizer **"senão"**.
+
+      ```java
+      if (robo.frenteLivre()) {
+          robo.andar();
+      } else {
+          robo.virarDireita();
+      }
+      ```
+
+      Leia assim: "**se** a frente está livre, ande; **senão**, vire para a direita".
+
+      Sempre acontece **uma** das duas coisas: ou o que está no `if`, ou o que está no `else`.
+      Nunca as duas juntas!
+    dica: |
+      Complete o if com `else { robo.virarDireita(); }`. Todas as curvas destes mundos são para a direita.
+    codigoInicial: |
+      while (!robo.chegou()) {
+          if (robo.frenteLivre()) {
+              robo.andar();
+          }
+          // senão (else)... o que fazer?
+      }
+    solucao: |
+      while (!robo.chegou()) {
+          if (robo.frenteLivre()) {
+              robo.andar();
+          } else {
+              robo.virarDireita();
+          }
+      }
+    mundos:
+      - mapa:
+          - "######"
+          - "#R..##"
+          - "###.##"
+          - "###.##"
+          - "###F##"
+          - "######"
+      - mapa:
+          - "########"
+          - "#R....##"
+          - "#####.##"
+          - "#F....##"
+          - "########"
+      - mapa:
+          - "#########"
+          - "#R.....F#"
+          - "#########"
+    objetivos:
+      - tipo: chegar
+    requisitos:
+      - padrao: '\belse\b'
+        mensagem: Use um else para virar quando a frente não estiver livre.
+
+  - id: sorvete
+    titulo: Dá para comprar sorvete?
+    historia: |
+      O sorvete da praça custa **3 moedas**. 🍦 O Byte vai juntar as moedas do caminho e decidir
+      se dá para comprar.
+    explicacao: |
+      Dá para fazer perguntas **comparando números**:
+
+      - `==` igual a (são **dois** iguais! um só `=` é para guardar na caixinha)
+      - `!=` diferente de
+      - `>` maior que, `<` menor que
+      - `>=` maior **ou igual**, `<=` menor **ou igual**
+
+      ```java
+      if (moedas >= 3) {
+          robo.falar("Sou rico!");
+      } else {
+          robo.falar("Preciso de mais moedas...");
+      }
+      ```
+
+      Também dá para juntar perguntas: `&&` quer dizer **"e"** (as duas precisam ser verdade)
+      e `||` quer dizer **"ou"** (basta uma ser verdade).
+    dica: |
+      No final, escreva: `if (moedas >= 3) { robo.falar("Vou comprar sorvete!"); } else { robo.falar("Ainda não dá..."); }`
+    codigoInicial: |
+      int moedas = 0;
+      while (!robo.chegou()) {
+          robo.andar();
+          if (robo.temMoeda()) {
+              robo.pegarMoeda();
+              moedas++;
+          }
+      }
+      // O sorvete custa 3 moedas.
+      // Se tiver 3 ou mais, fale "Vou comprar sorvete!"
+      // Se não, fale "Ainda não dá..."
+    solucao: |
+      int moedas = 0;
+      while (!robo.chegou()) {
+          robo.andar();
+          if (robo.temMoeda()) {
+              robo.pegarMoeda();
+              moedas++;
+          }
+      }
+      if (moedas >= 3) {
+          robo.falar("Vou comprar sorvete!");
+      } else {
+          robo.falar("Ainda não dá...");
+      }
+    mundos:
+      - mapa:
+          - "#########"
+          - "#RM.MM.F#"
+          - "#########"
+        objetivos:
+          - tipo: falar
+            texto: "Vou comprar sorvete!"
+      - mapa:
+          - "#########"
+          - "#R.M..MF#"
+          - "#########"
+        objetivos:
+          - tipo: falar
+            texto: "Ainda não dá..."
+      - mapa:
+          - "#########"
+          - "#RMMMM.F#"
+          - "#########"
+        objetivos:
+          - tipo: falar
+            texto: "Vou comprar sorvete!"
+    objetivos:
+      - tipo: moedas
+    requisitos:
+      - padrao: '(>=|<=|>|<)'
+        mensagem: Compare a quantidade de moedas com >= ou outra comparação.
+      - padrao: '\belse\b'
+        mensagem: Use um else para quando não der para comprar.
+
+  - id: labirinto
+    titulo: O labirinto
+    desafio: true
+    historia: |
+      ⭐ **Desafio!** O Byte caiu num labirinto, e cada mundo tem um labirinto diferente!
+      Existe um truque antigo para sair de qualquer labirinto: **sempre siga a parede da direita**. 🧱👉
+    explicacao: |
+      O Byte também sabe olhar para os lados:
+
+      - `robo.direitaLivre()` → "o lado direito está livre?"
+      - `robo.esquerdaLivre()` → "o lado esquerdo está livre?"
+      - `robo.frenteLivre()` → "a frente está livre?"
+
+      Com o `else if` você faz uma **fila de decisões**: o Java testa uma de cada vez, de cima para baixo,
+      e faz só a primeira que der certo.
+
+      ```java
+      if (primeiraPergunta) {
+          // ...
+      } else if (segundaPergunta) {
+          // ...
+      } else {
+          // se nenhuma deu certo
+      }
+      ```
+
+      O truque da mão direita:
+
+      1. **Se** a direita está livre → vire para a direita e ande
+      2. **Senão, se** a frente está livre → ande
+      3. **Senão** → vire para a esquerda
+
+      Atenção: em um dos mundos o Byte começa olhando para baixo!
+    dica: |
+      Dentro do `while (!robo.chegou())`, escreva os três casos:
+      `if (robo.direitaLivre()) { robo.virarDireita(); robo.andar(); } else if (robo.frenteLivre()) { robo.andar(); } else { robo.virarEsquerda(); }`
+    codigoInicial: |
+      while (!robo.chegou()) {
+          // Siga a parede da direita!
+          robo.andar();
+      }
+    solucao: |
+      while (!robo.chegou()) {
+          if (robo.direitaLivre()) {
+              robo.virarDireita();
+              robo.andar();
+          } else if (robo.frenteLivre()) {
+              robo.andar();
+          } else {
+              robo.virarEsquerda();
+          }
+      }
+    mundos:
+      - mapa:
+          - "#########"
+          - "#R....#.#"
+          - "####.##.#"
+          - "#....#..#"
+          - "#.####.##"
+          - "#......F#"
+          - "#########"
+      - direcao: sul
+        mapa:
+          - "#########"
+          - "#R#....F#"
+          - "#.#.###.#"
+          - "#.#.#...#"
+          - "#...#.#.#"
+          - "###...#.#"
+          - "#########"
+    objetivos:
+      - tipo: chegar
+    requisitos:
+      - padrao: 'else\s+if'
+        mensagem: Use else if para fazer a fila de decisões.

@@ -1,0 +1,193 @@
+id: repeticao
+titulo: Repetir é Fácil
+emoji: "🔁"
+cor: "#00b894"
+descricao: Use for e while para repetir ordens sem precisar escrever tudo de novo.
+licoes:
+
+  - id: corredor-comprido
+    titulo: O corredor comprido
+    historia: |
+      Que corredor enorme! São **10 quadradinhos** até a bandeira. Escrever `robo.andar();`
+      dez vezes cansa... Existe um jeito mais esperto! 😎
+    explicacao: |
+      Quando uma ordem se repete, usamos um **laço de repetição**. O mais famoso é o `for`:
+
+      ```java
+      for (int i = 0; i < 10; i++) {
+          robo.andar();
+      }
+      ```
+
+      Ele funciona como um contador:
+
+      - `int i = 0` → começa a contar do **zero**
+      - `i < 10` → continua **enquanto** i for menor que 10
+      - `i++` → depois de cada volta, soma 1 no i
+
+      Tudo o que está entre as chaves `{ }` se repete. Aqui o Byte anda 10 vezes!
+      É como dizer "pule 10 vezes" em vez de "pule, pule, pule, pule...". 🐸
+    dica: |
+      Troque o 3 do `i < 3` pelo número de quadradinhos até a bandeira.
+    codigoInicial: |
+      // Escrever robo.andar(); 10 vezes cansa...
+      // Use o for para repetir!
+      for (int i = 0; i < 3; i++) {
+          robo.andar();
+      }
+    solucao: |
+      for (int i = 0; i < 10; i++) {
+          robo.andar();
+      }
+    mapa:
+      - "#############"
+      - "#R.........F#"
+      - "#############"
+    objetivos:
+      - tipo: chegar
+    requisitos:
+      - padrao: 'for\s*\('
+        mensagem: Use um for para repetir o andar.
+      - padrao: 'andar\s*\('
+        maximo: 2
+        mensagem: Tente escrever robo.andar(); só uma vez, dentro do for!
+
+  - id: moedas-em-fila
+    titulo: Moedas em fila
+    historia: |
+      Seis moedas, uma atrás da outra! 🪙🪙🪙🪙🪙🪙 O Byte precisa andar **e** pegar, várias vezes.
+    explicacao: |
+      Dentro das chaves `{ }` do `for` podem ir **várias ordens**. Elas se repetem juntas, na ordem:
+
+      ```java
+      for (int i = 0; i < 3; i++) {
+          robo.andar();
+          robo.falar("Oba!");
+      }
+      ```
+
+      Aqui o Byte faz: anda, fala, anda, fala, anda, fala.
+
+      Deixar as ordens de dentro um pouquinho para a direita (isso se chama **indentação**)
+      ajuda a ver o que está dentro do `for`. O Java não liga, mas as pessoas agradecem! 😉
+    dica: |
+      Dentro do for, coloque `robo.andar();` e logo depois `robo.pegarMoeda();`.
+    codigoInicial: |
+      for (int i = 0; i < 6; i++) {
+          robo.andar();
+          // e agora?
+      }
+    solucao: |
+      for (int i = 0; i < 6; i++) {
+          robo.andar();
+          robo.pegarMoeda();
+      }
+    mapa:
+      - "#########"
+      - "#RMMMMMM#"
+      - "#########"
+    objetivos:
+      - tipo: moedas
+    requisitos:
+      - padrao: 'for\s*\('
+        mensagem: Use um for para repetir.
+      - padrao: 'pegarMoeda\s*\('
+        maximo: 1
+        mensagem: Escreva pegarMoeda() só uma vez, dentro do for.
+
+  - id: escada
+    titulo: A escada
+    historia: |
+      O Byte encontrou uma escada! 🪜 Cada degrau é sempre igual: anda, vira, anda, vira.
+    explicacao: |
+      Quando você perceber um **padrão** que se repete, coloque um pedaço dele dentro do `for`.
+
+      Olhe a escada: para subir **um** degrau, o Byte faz:
+
+      1. anda para a frente
+      2. vira para a esquerda (para olhar para cima)
+      3. anda
+      4. vira para a direita (para olhar para a frente de novo)
+
+      Quantos degraus tem a escada? Esse é o número de repetições!
+    dica: |
+      São 4 degraus. Dentro do for: `robo.andar(); robo.virarEsquerda(); robo.andar(); robo.virarDireita();`
+    codigoInicial: |
+      for (int i = 0; i < 4; i++) {
+          // Um degrau: andar, virar, andar, virar...
+      }
+    solucao: |
+      for (int i = 0; i < 4; i++) {
+          robo.andar();
+          robo.virarEsquerda();
+          robo.andar();
+          robo.virarDireita();
+      }
+    mapa:
+      - "#######"
+      - "#####F#"
+      - "####..#"
+      - "###..##"
+      - "##..###"
+      - "#R.####"
+      - "#######"
+    objetivos:
+      - tipo: chegar
+    requisitos:
+      - padrao: 'for\s*\('
+        mensagem: Use um for para repetir os degraus.
+      - padrao: 'andar\s*\('
+        maximo: 2
+        mensagem: Coloque um degrau só dentro do for, e deixe ele repetir!
+
+  - id: enquanto
+    titulo: Enquanto não chegar...
+    historia: |
+      Que mistério! 🕵️ Em cada mundo o corredor tem um tamanho diferente.
+      Seu programa vai ser testado em **3 mundos**, e precisa funcionar em todos!
+    explicacao: |
+      Às vezes a gente não sabe **quantas vezes** repetir. Aí usamos o `while`, que quer dizer **"enquanto"**:
+
+      ```java
+      while (!robo.chegou()) {
+          robo.andar();
+      }
+      ```
+
+      Leia assim: "**enquanto** o robô **não** chegou, ande".
+
+      - `robo.chegou()` é uma **pergunta**: o Byte responde `true` (sim) ou `false` (não).
+      - O `!` quer dizer **"não"**: ele inverte a resposta.
+
+      O Byte sabe responder outras perguntas também, como `robo.frenteLivre()`
+      ("a frente está livre?").
+
+      ⚠️ Cuidado com o **loop infinito**: se a pergunta nunca mudar de resposta, o `while` repete para sempre!
+    dica: |
+      Use exatamente o while da explicação: `while (!robo.chegou()) { robo.andar(); }`
+    codigoInicial: |
+      // O caminho muda de tamanho em cada mundo!
+      // Use while para andar até chegar na bandeira.
+      robo.andar();
+    solucao: |
+      while (!robo.chegou()) {
+          robo.andar();
+      }
+    mundos:
+      - mapa:
+          - "#######"
+          - "#R...F#"
+          - "#######"
+      - mapa:
+          - "##########"
+          - "#R......F#"
+          - "##########"
+      - mapa:
+          - "#####"
+          - "#R.F#"
+          - "#####"
+    objetivos:
+      - tipo: chegar
+    requisitos:
+      - padrao: 'while\s*\('
+        mensagem: Use um while para andar até chegar.

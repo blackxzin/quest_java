@@ -1,0 +1,181 @@
+id: variaveis
+titulo: Caixinhas de Memória
+emoji: "📦"
+cor: "#ff8a3d"
+descricao: Guarde números e textos em variáveis, conte moedas e faça contas.
+licoes:
+
+  - id: caixinhas
+    titulo: Caixinhas com etiqueta
+    historia: |
+      O Byte é meio esquecido... 🙃 Para não esquecer as coisas, ele guarda tudo em **caixinhas com etiqueta**.
+    explicacao: |
+      Uma **variável** é uma caixinha com uma etiqueta (o nome) e alguma coisa dentro (o valor). 📦
+
+      ```java
+      int idade = 7;
+      String nome = "Byte";
+      ```
+
+      - `int` → caixinha de **números inteiros** (sem vírgula): 0, 7, 100, -3
+      - `String` → caixinha de **textos** (com **S** maiúsculo!)
+      - `idade` e `nome` → as etiquetas. Você escolhe o nome!
+      - `=` → quer dizer "**guarde dentro**". Não é o "igual" da matemática!
+
+      Para juntar texto com o que está na caixinha, use o `+`:
+
+      ```java
+      robo.falar("Meu nome é " + nome);   // Meu nome é Byte
+      ```
+    dica: |
+      Crie a caixinha com `int idade = 7;` e depois use
+      `robo.falar("Eu tenho " + idade + " anos");`. Repare nos espaços dentro das aspas!
+    codigoInicial: |
+      String nome = "Byte";
+      robo.falar("Oi, eu sou o " + nome + "!");
+
+      // Crie uma caixinha int chamada idade com o número 7
+      // e faça o Byte falar "Eu tenho 7 anos"
+    solucao: |
+      String nome = "Byte";
+      robo.falar("Oi, eu sou o " + nome + "!");
+
+      int idade = 7;
+      robo.falar("Eu tenho " + idade + " anos");
+    mapa:
+      - "#####"
+      - "#R..#"
+      - "#####"
+    objetivos:
+      - tipo: falar
+        texto: "Oi, eu sou o Byte!"
+      - tipo: falar
+        texto: "Eu tenho 7 anos"
+    requisitos:
+      - padrao: 'int\s+idade\s*='
+        mensagem: Crie a caixinha com int idade = 7;
+      - padrao: '\+\s*idade'
+        mensagem: Use a caixinha idade junto com o texto, usando o +.
+
+  - id: contando-moedas
+    titulo: Contador de moedas
+    historia: |
+      O Byte quer saber quantas moedas pegou. Vamos ensinar ele a **contar**! 🔢
+    explicacao: |
+      O valor dentro da caixinha pode **mudar**! É por isso que se chama **variável**.
+
+      ```java
+      int moedas = 0;          // a caixinha começa vazia (com zero)
+      moedas = moedas + 1;     // agora tem 1
+      moedas = moedas + 1;     // agora tem 2
+      ```
+
+      Leia `moedas = moedas + 1;` assim: "a caixinha **moedas** recebe o que já tinha nela, **mais 1**".
+
+      Tem um atalho que os programadores adoram:
+
+      ```java
+      moedas++;    // é o mesmo que moedas = moedas + 1;
+      ```
+    dica: |
+      Depois de cada `robo.pegarMoeda();`, escreva `moedas = moedas + 1;` (ou `moedas++;`).
+      São 3 moedas, uma em cada quadradinho.
+    codigoInicial: |
+      int moedas = 0;
+
+      robo.andar();
+      robo.pegarMoeda();
+      moedas = moedas + 1;
+
+      // Continue pegando as outras moedas e contando...
+
+      robo.falar("Peguei " + moedas + " moedas!");
+    solucao: |
+      int moedas = 0;
+
+      robo.andar();
+      robo.pegarMoeda();
+      moedas = moedas + 1;
+
+      robo.andar();
+      robo.pegarMoeda();
+      moedas = moedas + 1;
+
+      robo.andar();
+      robo.pegarMoeda();
+      moedas++;
+
+      robo.falar("Peguei " + moedas + " moedas!");
+    mapa:
+      - "#######"
+      - "#RMMM.#"
+      - "#######"
+    objetivos:
+      - tipo: moedas
+      - tipo: falar
+        texto: "Peguei 3 moedas!"
+    requisitos:
+      - padrao: 'moedas\s*(\+\+|\+=|=\s*moedas\s*\+)'
+        mensagem: Conte as moedas na caixinha, com moedas = moedas + 1;
+      - padrao: 'falar\s*\([^;]*\bmoedas\b'
+        mensagem: Use a caixinha moedas na frase que o Byte fala.
+
+  - id: calculadora
+    titulo: A calculadora do Byte
+    historia: |
+      Na Loja do Robô, cada moeda vale **5 pontos**. Quantos pontos o Byte vai ter? 🧮
+    explicacao: |
+      O Java é ótimo de contas! Os sinais são:
+
+      - `+` soma → `2 + 3` dá 5
+      - `-` subtração → `5 - 1` dá 4
+      - `*` multiplicação (vezes) → `4 * 5` dá 20
+      - `/` divisão → `10 / 2` dá 5
+      - `%` resto da divisão → `7 % 2` dá 1
+
+      Você pode guardar o resultado numa caixinha:
+
+      ```java
+      int total = moedas * 5;
+      ```
+
+      Curiosidade: com `int`, a divisão joga fora o que vem depois da vírgula: `7 / 2` dá 3! 😮
+    dica: |
+      Pegue as 4 moedas contando cada uma (`moedas++;`).
+      Depois troque o 0 por `moedas * 5`.
+    codigoInicial: |
+      int moedas = 0;
+      // Pegue as 4 moedas, contando cada uma
+
+
+      // Cada moeda vale 5 pontos!
+      int pontos = 0; // troque o 0 pela conta certa
+      robo.falar("Tenho " + pontos + " pontos!");
+    solucao: |
+      int moedas = 0;
+      robo.andar();
+      robo.pegarMoeda();
+      moedas++;
+      robo.andar();
+      robo.pegarMoeda();
+      moedas++;
+      robo.andar();
+      robo.pegarMoeda();
+      moedas++;
+      robo.andar();
+      robo.pegarMoeda();
+      moedas++;
+
+      int pontos = moedas * 5;
+      robo.falar("Tenho " + pontos + " pontos!");
+    mapa:
+      - "#######"
+      - "#RMMMM#"
+      - "#######"
+    objetivos:
+      - tipo: moedas
+      - tipo: falar
+        texto: "Tenho 20 pontos!"
+    requisitos:
+      - padrao: 'moedas\s*\*|\*\s*moedas'
+        mensagem: Calcule os pontos com a multiplicação, usando moedas * 5.
