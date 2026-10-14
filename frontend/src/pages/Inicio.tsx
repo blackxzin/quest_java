@@ -27,8 +27,8 @@ export function PaginaInicio({ modulos }: { modulos: Modulo[] | null }) {
           <h1>Aprenda <span className="destaque">Java</span> programando um robô!</h1>
           <p>
             Dê ordens para o <strong>Byte</strong>, pegue moedas, fuja de labirintos e
-            monte até uma loja com <strong>Spring Boot</strong>. Tudo com código Java de verdade,
-            explicado de um jeito que qualquer pessoa entende.
+            monte uma loja com <strong>Spring Boot</strong>. Aprenda também <strong>Git e Docker</strong>
+            em laboratórios interativos, com desafios, dicas e conquistas. Java de verdade e ferramentas explicadas passo a passo.
           </p>
           <div className="heroi-botoes">
             <button className="botao grande" onClick={() => (proxima ? ir(`licao/${proxima.id}`) : ir('mapa'))}>
@@ -54,7 +54,7 @@ export function PaginaInicio({ modulos }: { modulos: Modulo[] | null }) {
 
       {visiveis.length > 0 && (
         <section className="jornada">
-          <h2>A sua jornada</h2>
+          <h2>Três trilhas, uma grande aventura</h2><p>Java e Spring, Git ou Docker: você escolhe por onde começar. {visiveis.reduce((n, m) => n + m.licoes.length, 0)} missões para explorar.</p>
           <ol>
             {visiveis.map((m) => (
               <li key={m.id} style={{ ['--cor-modulo' as string]: m.cor }}>

@@ -1,0 +1,319 @@
+id: oficina-java
+titulo: Oficina de dados do Byte
+emoji: 🧪
+cor: '#bf629d'
+descricao: Textos, números e coleções para resolver problemas de verdade.
+licoes:
+- id: texto-cracha
+  titulo: O crachá do Byte
+  modo: completo
+  historia: |
+    O crachá veio com espaços e letras minúsculas. Ajude a recepção a organizar os nomes!
+  explicacao: |
+    ### Textos também têm ferramentas
+    Uma String é uma sequência de caracteres. `trim()` remove espaços das pontas e `toUpperCase()` transforma letras em maiúsculas. Esses métodos devolvem outro texto: guarde o resultado.
+
+    ```java
+    String nome = "  ana  ";
+    String limpo = nome.trim().toUpperCase();
+    robo.falar(limpo); // ANA
+    ```
+
+    Percorra os nomes fornecidos e anuncie `Olá, BYTE!`, `Olá, ANA!` e `Olá, LEO!`. Uma cadeia de métodos aplica cada transformação ao resultado anterior.
+  dica: |
+    Use nome.trim().toUpperCase() dentro do for. Monte a saudação com +.
+  codigoInicial: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] nomes = {"  byte ", " ana  ", " leo "};
+            for (String nome : nomes) {
+                robo.falar(nome);
+            }
+        }
+    }
+  solucao: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] nomes = {"  byte ", " ana  ", " leo "};
+            for (String nome : nomes) {
+                String limpo = nome.trim().toUpperCase();
+                robo.falar("Olá, " + limpo + "!");
+            }
+        }
+    }
+  mapa:
+  - '#####'
+  - '#R..#'
+  - '#####'
+  objetivos:
+  - tipo: falar
+    texto: Olá, BYTE!
+  - tipo: falar
+    texto: Olá, ANA!
+  - tipo: falar
+    texto: Olá, LEO!
+  requisitos:
+  - padrao: \.trim\s*\(
+    mensagem: Remova os espaços das pontas com trim().
+  - padrao: \.toUpperCase\s*\(
+    mensagem: Transforme o nome com toUpperCase().
+  desafio: false
+- id: texto-senha
+  titulo: A senha da estação
+  modo: completo
+  historia: |
+    Três visitantes chegaram. Só quem disser java entra na estação!
+  explicacao: |
+    ### Comparar conteúdo
+    Para comparar o conteúdo de textos, use `.equals()`. `==` compara referências de objetos e não é o teste certo para o conteúdo de Strings.
+
+    ```java
+    if ("java".equals(senha)) {
+        robo.falar("Acesso liberado");
+    }
+    ```
+
+    O método diferencia maiúsculas e minúsculas: `JAVA` é diferente de `java`. Teste as três senhas e diga `java: liberado`, `JAVA: negado` e `python: negado`.
+  dica: |
+    Use if ("java".equals(senha)) e um else, montando a mensagem com a senha.
+  codigoInicial: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] senhas = {"java", "JAVA", "python"};
+            for (String senha : senhas) {
+                robo.falar(senha + ": negado");
+            }
+        }
+    }
+  solucao: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] senhas = {"java", "JAVA", "python"};
+            for (String senha : senhas) {
+                if ("java".equals(senha)) {
+                    robo.falar(senha + ": liberado");
+                } else {
+                    robo.falar(senha + ": negado");
+                }
+            }
+        }
+    }
+  mapa:
+  - '#####'
+  - '#R..#'
+  - '#####'
+  objetivos:
+  - tipo: falar
+    texto: 'java: liberado'
+  - tipo: falar
+    texto: 'JAVA: negado'
+  - tipo: falar
+    texto: 'python: negado'
+  requisitos:
+  - padrao: \.equals\s*\(
+    mensagem: Compare o conteúdo com equals().
+  desafio: false
+- id: numeros-media
+  titulo: O placar da arena
+  modo: completo
+  historia: |
+    Byte quer a média de três partidas. A divisão inteira está escondendo parte dos pontos!
+  explicacao: |
+    ### Dividir sem perder a parte decimal
+    Se os dois lados da divisão são inteiros, Java faz divisão inteira: `5 / 2` vale 2. Para obter 2.5, um dos lados precisa ser decimal, como em `5 / 2.0`.
+
+    Some os pontos do array e calcule a média como double. Use `(double) total / pontos.length`: o cast transforma o total antes da divisão.
+
+    A pontuação é 7, 8 e 10. Anuncie `Total: 25` e `Média: 8.333333333333334`. Esse texto é a representação double usada neste exemplo.
+  dica: |
+    Some cada pontuação num for. Use double media = (double) total / pontos.length.
+  codigoInicial: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            int[] pontos = {7, 8, 10};
+            int total = 0;
+            // Some os pontos aqui.
+            double media = total / pontos.length;
+            robo.falar("Total: " + total);
+            robo.falar("Média: " + media);
+        }
+    }
+  solucao: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            int[] pontos = {7, 8, 10};
+            int total = 0;
+            for (int ponto : pontos) {
+                total += ponto;
+            }
+            double media = (double) total / pontos.length;
+            robo.falar("Total: " + total);
+            robo.falar("Média: " + media);
+        }
+    }
+  mapa:
+  - '#####'
+  - '#R..#'
+  - '#####'
+  objetivos:
+  - tipo: falar
+    texto: 'Total: 25'
+  - tipo: falar
+    texto: 'Média: 8.333333333333334'
+  requisitos:
+  - padrao: \bdouble\b
+    mensagem: Use double para preservar a parte decimal.
+  - padrao: \bfor\s*\(
+    mensagem: Percorra os pontos com um for.
+  desafio: false
+- id: mapa-estoque
+  titulo: O inventário organizado
+  modo: completo
+  historia: |
+    A oficina tem baterias e rodas. Use etiquetas para encontrar cada quantidade sem decorar posições!
+  explicacao: |
+    ### Map: chave e valor
+    Um `Map<String, Integer>` liga um nome a uma quantidade. A implementação HashMap oferece essa busca por chave.
+
+    ```java
+    Map<String, Integer> estoque = new HashMap<>();
+    estoque.put("roda", 4);
+    int rodas = estoque.getOrDefault("roda", 0);
+    ```
+
+    `put` adiciona ou substitui o valor da chave. `getOrDefault` devolve um valor padrão quando a chave não existe. Registre 5 baterias e 8 rodas, acrescente 2 baterias e consulte também laser, que não existe. Anuncie as quantidades pedidas.
+  dica: |
+    Use put para gravar e getOrDefault para ler. Atualize bateria para estoque.getOrDefault("bateria", 0) + 2.
+  codigoInicial: |
+    import jogo.*;
+    import java.util.Map;
+    import java.util.HashMap;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            Map<String, Integer> estoque = new HashMap<>();
+            // Registre os itens e atualize as baterias.
+            robo.falar("Baterias: " + estoque.getOrDefault("bateria", 0));
+            robo.falar("Rodas: " + estoque.getOrDefault("roda", 0));
+            robo.falar("Lasers: " + estoque.getOrDefault("laser", 0));
+        }
+    }
+  solucao: |
+    import jogo.*;
+    import java.util.Map;
+    import java.util.HashMap;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            Map<String, Integer> estoque = new HashMap<>();
+            estoque.put("bateria", 5);
+            estoque.put("roda", 8);
+            estoque.put("bateria", estoque.getOrDefault("bateria", 0) + 2);
+            robo.falar("Baterias: " + estoque.getOrDefault("bateria", 0));
+            robo.falar("Rodas: " + estoque.getOrDefault("roda", 0));
+            robo.falar("Lasers: " + estoque.getOrDefault("laser", 0));
+        }
+    }
+  mapa:
+  - '#####'
+  - '#R..#'
+  - '#####'
+  objetivos:
+  - tipo: falar
+    texto: 'Baterias: 7'
+  - tipo: falar
+    texto: 'Rodas: 8'
+  - tipo: falar
+    texto: 'Lasers: 0'
+  requisitos:
+  - padrao: \.put\s*\(
+    mensagem: Guarde as quantidades no Map com put().
+  - padrao: \.getOrDefault\s*\(
+    mensagem: Consulte com um valor padrão usando getOrDefault().
+  desafio: false
+- id: conjunto-selos
+  titulo: Selos sem repetição
+  modo: completo
+  historia: |
+    Byte colecionou o mesmo selo várias vezes. Descubra quantos selos diferentes ele possui!
+  explicacao: |
+    ### Set: coleção de itens únicos
+    Uma lista aceita repetições. Um `Set` mantém elementos únicos. Ao adicionar o mesmo texto novamente, o conjunto continua com um exemplar.
+
+    ```java
+    Set<String> selos = new HashSet<>();
+    selos.add("lua");
+    selos.add("lua");
+    robo.falar(selos.size()); // 1
+    ```
+
+    Percorra a coleção recebida e adicione cada selo ao conjunto. Anuncie `Selos únicos: 3` e `Tem lua: true`. HashSet não garante a ordem de iteração: use-o quando o importante é pertencer ao grupo, não a posição.
+  dica: |
+    Adicione cada item ao HashSet dentro do for e consulte size() e contains("lua").
+  codigoInicial: |
+    import jogo.*;
+    import java.util.Set;
+    import java.util.HashSet;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] recebidos = {"lua", "sol", "lua", "mar", "sol"};
+            Set<String> selos = new HashSet<>();
+            // Coloque os selos no conjunto.
+            robo.falar("Selos únicos: " + selos.size());
+            robo.falar("Tem lua: " + selos.contains("lua"));
+        }
+    }
+  solucao: |
+    import jogo.*;
+    import java.util.Set;
+    import java.util.HashSet;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] recebidos = {"lua", "sol", "lua", "mar", "sol"};
+            Set<String> selos = new HashSet<>();
+            for (String selo : recebidos) {
+                selos.add(selo);
+            }
+            robo.falar("Selos únicos: " + selos.size());
+            robo.falar("Tem lua: " + selos.contains("lua"));
+        }
+    }
+  mapa:
+  - '#####'
+  - '#R..#'
+  - '#####'
+  objetivos:
+  - tipo: falar
+    texto: 'Selos únicos: 3'
+  - tipo: falar
+    texto: 'Tem lua: true'
+  requisitos:
+  - padrao: \bHashSet\b
+    mensagem: Use HashSet para manter itens únicos.
+  - padrao: \.add\s*\(
+    mensagem: Adicione os selos ao conjunto.
+  desafio: false

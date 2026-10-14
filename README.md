@@ -2,7 +2,7 @@
 
 O JavaQuest é uma IDE no navegador para aprender **Java de verdade** com jogos 2D. O aluno dá ordens
 para o **Byte**, um robozinho explorador, e vai da primeira linha de código até **Orientação a
-Objetos** e **Spring Boot**. As explicações são escritas para que até uma criança entenda.
+Objetos**, **Spring Boot** e desafios de dados. Há também trilhas independentes de **Git** e **Docker**, com terminal simulado e revisão interativa. As explicações são escritas para que até uma criança entenda.
 
 ![Tela inicial](docs/inicio.png)
 
@@ -16,7 +16,7 @@ Objetos** e **Spring Boot**. As explicações são escritas para que até uma cr
 
 ![Uma missão](docs/missao.png)
 
-## A jornada (35 missões)
+## A jornada (67 missões + modo livre)
 
 | Módulo | O que se aprende |
 |---|---|
@@ -28,6 +28,32 @@ Objetos** e **Spring Boot**. As explicações são escritas para que até uma cr
 | 📋 Listas e Arrays | arrays, `for` "para cada" e `ArrayList` |
 | 🏭 Fábrica de Robôs | classes, objetos, construtores, encapsulamento, herança, polimorfismo e interfaces |
 | 🏪 Loja do Robô | Spring Boot: `@RestController`, `@GetMapping`, JSON, `@PathVariable`, `@RequestParam`, `@Service`, `@PostMapping`, status HTTP e o projeto de verdade |
+| 🧪 Oficina de dados do Byte | 5 missões de Strings, comparação de textos, médias, Map e Set |
+| 🛟 Missões à prova de imprevistos | 3 missões de exceções, limites e processamento de pedidos |
+| 🌱 Git: máquina do tempo | 6 missões de repositório, preparação, commits, diff e correção de seleção |
+| 🌿 Git: missão em equipe | 6 missões de branches, merge fast-forward, tags, remoto e push |
+| 🐳 Docker: porto dos contêineres | 6 missões de imagens, execução, portas, logs e ciclo de vida |
+| 🚢 Docker: estação de entrega | 6 missões de Dockerfile, build, volumes e Compose |
+
+O mapa permite **filtrar por trilha e buscar por assunto**, retomar a próxima missão e acompanhar
+conquistas. A primeira missão de Java, Git e Docker começa liberada; a progressão acontece dentro de
+cada trilha. As 35 missões originais continuam disponíveis com seus identificadores e progresso.
+
+### Laboratórios de Git e Docker
+
+São 24 atividades práticas que rodam **somente no navegador**, sem executar shell, acessar remotos,
+baixar imagens ou alterar arquivos do computador. Cada missão oferece história, explicação,
+objetivos acompanhados no painel, dicas, roteiro resolvido e uma pergunta de revisão. Para concluir,
+é necessário cumprir os objetivos e responder corretamente. Estrelas e conquistas são salvas no
+navegador; ao sair de um laboratório, o cenário é reiniciado.
+
+O simulador implementa um subconjunto explícito dos comandos: histórico e preparação de arquivos,
+branches e merge fast-forward; imagens, portas, ciclo de vida, volumes e um projeto Compose fixo.
+Ele não substitui Git ou Docker reais: não simula conflitos, autenticação, rede, execução do JAR,
+conteúdo persistido em bancos ou interpretação de Dockerfiles/Compose arbitrários. Os arquivos de
+exemplo são consultados com `cat`, e `help` lista os comandos disponíveis. A interface identifica
+as simulações e oferece links para a [documentação do Git](https://git-scm.com/docs) e a
+[documentação do Docker](https://docs.docker.com/get-started/).
 
 Algumas missões testam o código em **vários mundos** diferentes (o corredor muda de tamanho, as moedas
 mudam de lugar), para o aluno aprender a escrever código que funciona em qualquer situação, e não só a
@@ -40,7 +66,7 @@ Na **Loja do Robô**, os clientes chegam com pedidos HTTP e o aluno programa o a
 
 ## Como rodar
 
-Você precisa do **JDK 21** e do **Node.js 20+**.
+Você precisa do **JDK 21** e do **Node.js 22.18+** (ou 24+; necessário para executar os testes TypeScript diretamente).
 
 ```bash
 # 1. Construir o site
@@ -69,6 +95,11 @@ docker run -p 8080:8080 --memory=1g javaquest
 
 ```bash
 ./gradlew test
+cd frontend
+npm test
+# Com o servidor rodando em localhost:8080:
+npx playwright install chromium
+npm run test:browser
 ```
 
 Os testes rodam a **solução de todas as lições** e conferem se ela cumpre a missão. Eles também
@@ -113,3 +144,15 @@ As lições ficam em `servidor/src/main/resources/licoes/*.yml`. Cada lição te
 | `F` | bandeira |
 
 Rode `./gradlew test` para garantir que a solução funciona.
+
+### Manter os laboratórios
+
+- `frontend/src/laboratorio/catalogo.ts`: conteúdo, preparação de cenários, metas verificáveis e revisão.
+- `frontend/src/laboratorio/motor.ts`: transições de estado e mensagens do simulador, sem efeitos externos.
+- `frontend/src/pages/Oficina.tsx`: terminal, painel do ambiente e conclusão da missão.
+- `frontend/tests/laboratorio.test.ts`: testa todas as soluções, cenários incompletos e erros de comandos.
+- `frontend/tests/navegacao.cjs`: valida navegação, desbloqueio, persistência, revisão, execução Java e layout mobile.
+
+O navegador junta os módulos Java recebidos da API com o catálogo local de Git/Docker. Comandos dos
+laboratórios não passam pelo endpoint de compilação Java. Para testar em outro endereço, configure
+`JAVAQUEST_URL`; para usar um Chromium já instalado, configure `CHROMIUM_PATH`.
