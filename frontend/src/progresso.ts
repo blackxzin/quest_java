@@ -8,7 +8,19 @@ const CHAVE = 'javaquest:progresso:v1';
 function ler(): Progresso {
   try {
     const bruto = localStorage.getItem(CHAVE);
-    if (bruto) return JSON.parse(bruto);
+    if (bruto) {
+      const valor = JSON.parse(bruto);
+      if (valor && typeof valor === 'object' && valor.licoes && typeof valor.licoes === 'object' && !Array.isArray(valor.licoes)) {
+        const licoes: Record<string, ProgressoLicao> = {};
+        for (const [id, p] of Object.entries(valor.licoes)) {
+          if (!p || typeof p !== 'object') continue;
+          const item = p as ProgressoLicao;
+          licoes[id] = { concluida: item.concluida === true, estrelas: Number.isInteger(item.estrelas) ? Math.max(0, Math.min(3, item.estrelas)) : 0,
+            codigo: typeof item.codigo === 'string' ? item.codigo : undefined, dica: item.dica === true, solucao: item.solucao === true };
+        }
+        return { licoes, tudoLiberado: valor.tudoLiberado === true };
+      }
+    }
   } catch {
     // Sem localStorage (janela anônima, por exemplo): começa do zero.
   }
@@ -18,7 +30,11 @@ function ler(): Progresso {
 let estado: Progresso = ler();
 const ouvintes = new Set<() => void>();
 
+let versao = 0;
+export function versaoProgresso() { return versao; }
+
 function salvar() {
+  versao++;
   try {
     localStorage.setItem(CHAVE, JSON.stringify(estado));
   } catch {

@@ -443,3 +443,58 @@ pre.codigo code { background: none; padding: 0; font-size: 1em; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }
+
+/* Trilhas independentes e laboratórios de ferramentas. */
+.painel-jornada { display: flex; gap: 24px; justify-content: space-between; align-items: center; background: var(--cartao); border: 1px solid var(--borda); border-radius: var(--raio); padding: 24px; margin: 24px 0; }
+progress { accent-color: var(--primaria); width: 100%; height: 12px; }
+.filtros-trilhas, .conquistas { display: flex; gap: 12px; flex-wrap: wrap; margin: 18px 0; }
+.busca-missoes { width: 100%; }
+.conquista { border: 1px solid var(--borda); background: var(--cartao); border-radius: 16px; padding: 10px 16px; font-size: .88rem; }
+.conquista.completa { background: var(--ok-fundo); border-color: var(--verde); }
+.oficina { max-width: 1600px; margin: auto; padding: 20px; }
+.oficina-aviso { padding: 14px 20px; background: var(--info-fundo); border-radius: 12px; margin: 16px 0 24px; font-size: .95rem; }
+.oficina-grade { display: grid; grid-template-columns: minmax(280px, .8fr) minmax(0, 1.3fr); gap: 24px; align-items: start; }
+.oficina-aprenda, .oficina-objetivos, .oficina-estado, .oficina-revisao { padding: 24px; }
+.oficina-aprenda .historia { margin: -24px -24px 24px; padding: 24px; }
+.oficina-pratica { display: grid; gap: 20px; min-width: 0; }
+.oficina h2 { font-size: 1.3rem; }
+.oficina h3 { font-size: 1.05rem; }
+.oficina-objetivos ul { padding: 0; list-style: none; }
+.oficina-objetivos li { padding: 5px 0; }
+.meta-pronta { color: var(--verde-escuro); font-weight: 800; }
+.oficina-console { overflow: hidden; }
+.oficina-saida { background: #171b2c; color: #e4eaf5; padding: 20px; height: 280px; overflow: auto; font: .87rem/1.7 var(--fonte-codigo); }
+.oficina-saida pre { white-space: pre-wrap; overflow-wrap: anywhere; font: inherit; margin: 4px 0 18px; }
+.comando-eco { color: #8ce9b8; overflow-wrap: anywhere; }
+.comando-erro { color: #ffb3b8; }
+.oficina-entrada { display: flex; align-items: center; gap: 10px; padding: 14px; border-top: 1px solid var(--borda); }
+.oficina-entrada input { flex: 1; min-width: 0; background: var(--codigo-fundo); color: var(--tinta); border: 1px solid var(--borda); border-radius: 8px; padding: 12px; font: .9rem var(--fonte-codigo); }
+.estado-grade { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.estado-grade > div { padding: 14px; border-radius: 12px; background: var(--fundo); overflow-wrap: anywhere; }
+.estado-grade p { margin: 5px 0; font-size: .9rem; }
+.oficina-revisao fieldset { border: 0; margin: 0 0 18px; padding: 0; }
+.oficina-revisao legend { font-weight: 800; margin: 10px 0; }
+.oficina-revisao label { display: flex; align-items: center; gap: 12px; padding: 14px; border: 2px solid var(--borda); border-radius: 12px; margin: 10px 0; cursor: pointer; }
+.oficina-revisao label.selecionada { border-color: var(--primaria); background: var(--info-fundo); }
+.oficina-revisao input { accent-color: var(--primaria); }
+.oficina-feedback { margin: 16px 0 0; font-weight: 700; }
+.oficina-vitoria { padding: 20px; border-radius: 12px; background: var(--ok-fundo); }
+.oficina-fonte { margin-top: 24px; font-size: .9rem; }
+.oficina-fonte a { color: var(--primaria-escura); }
+.oficina-codigo { overflow-x: auto; padding: 12px; background: var(--codigo-fundo); font: .85rem/1.8 var(--fonte-codigo); }
+@media (max-width: 850px) {
+  .oficina-grade { grid-template-columns: 1fr; }
+  .painel-jornada { flex-direction: column; align-items: stretch; }
+}
+@media (max-width: 500px) {
+  .oficina { padding: 10px; }
+  .oficina-aprenda, .oficina-objetivos, .oficina-estado, .oficina-revisao { padding: 18px; }
+  .oficina-aprenda .historia { margin: -18px -18px 18px; padding: 18px; }
+  .estado-grade { grid-template-columns: 1fr; }
+  .oficina-entrada { flex-wrap: wrap; }
+  .oficina-entrada input { width: calc(100% - 35px); flex-basis: 80%; }
+  .oficina-entrada button { width: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+}

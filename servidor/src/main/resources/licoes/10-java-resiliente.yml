@@ -1,0 +1,220 @@
+id: java-resiliente
+titulo: Missões à prova de imprevistos
+emoji: 🛟
+cor: '#ca7041'
+descricao: Trate erros, valide limites e combine suas habilidades no desafio final.
+licoes:
+- id: erros-conversao
+  titulo: O tradutor de etiquetas
+  modo: completo
+  historia: |
+    Uma caixa tem quantidade escrita como ops. Ajude Byte a continuar sem derrubar a oficina!
+  explicacao: |
+    ### Tratar uma falha esperada
+    `Integer.parseInt("12")` converte texto para inteiro. Se o texto não representa um inteiro válido, ele lança `NumberFormatException`.
+
+    ```java
+    try {
+        int numero = Integer.parseInt(texto);
+        robo.falar(numero);
+    } catch (NumberFormatException erro) {
+        robo.falar("Etiqueta inválida");
+    }
+    ```
+
+    Coloque o try/catch **dentro do for** para tratar cada etiqueta e continuar nas próximas. Anuncie `Quantidade: 12`, `Etiqueta inválida: ops` e `Quantidade: 7`. Capture o erro específico que você sabe tratar.
+  dica: |
+    Envolva a conversão de cada texto em try e capture NumberFormatException com catch.
+  codigoInicial: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] etiquetas = {"12", "ops", "7"};
+            for (String texto : etiquetas) {
+                int quantidade = Integer.parseInt(texto);
+                robo.falar("Quantidade: " + quantidade);
+            }
+        }
+    }
+  solucao: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] etiquetas = {"12", "ops", "7"};
+            for (String texto : etiquetas) {
+                try {
+                    int quantidade = Integer.parseInt(texto);
+                    robo.falar("Quantidade: " + quantidade);
+                } catch (NumberFormatException erro) {
+                    robo.falar("Etiqueta inválida: " + texto);
+                }
+            }
+        }
+    }
+  mapa:
+  - '#####'
+  - '#R..#'
+  - '#####'
+  objetivos:
+  - tipo: falar
+    texto: 'Quantidade: 12'
+  - tipo: falar
+    texto: 'Etiqueta inválida: ops'
+  - tipo: falar
+    texto: 'Quantidade: 7'
+  requisitos:
+  - padrao: \bcatch\s*\(\s*NumberFormatException
+    mensagem: Trate NumberFormatException com catch.
+  desafio: false
+- id: metodo-validacao
+  titulo: O fiscal de energia
+  modo: completo
+  historia: |
+    Antes de lançar a nave, confira se a energia está entre 0 e 100. O método precisa responder para qualquer valor!
+  explicacao: |
+    ### Um método com contrato claro
+    Um método boolean devolve uma decisão. `&&` exige que as duas condições sejam verdadeiras.
+
+    ```java
+    static boolean positivo(int valor) {
+        return valor > 0;
+    }
+    ```
+
+    Complete `energiaValida` para aceitar valores de **0 até 100, inclusive**. O programa já testa valores abaixo, dentro e acima do intervalo. Esses casos de fronteira ajudam a encontrar erros como usar > no lugar de >=.
+  dica: |
+    Retorne energia >= 0 && energia <= 100.
+  codigoInicial: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            int[] testes = {-1, 0, 50, 100, 101};
+            for (int energia : testes) {
+                robo.falar(energia + ": " + energiaValida(energia));
+            }
+        }
+        static boolean energiaValida(int energia) {
+            return false;
+        }
+    }
+  solucao: |
+    import jogo.*;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            int[] testes = {-1, 0, 50, 100, 101};
+            for (int energia : testes) {
+                robo.falar(energia + ": " + energiaValida(energia));
+            }
+        }
+        static boolean energiaValida(int energia) {
+            return energia >= 0 && energia <= 100;
+        }
+    }
+  mapa:
+  - '#####'
+  - '#R..#'
+  - '#####'
+  objetivos:
+  - tipo: falar
+    texto: '-1: false'
+  - tipo: falar
+    texto: '0: true'
+  - tipo: falar
+    texto: '50: true'
+  - tipo: falar
+    texto: '100: true'
+  - tipo: falar
+    texto: '101: false'
+  requisitos:
+  - padrao: \breturn\b
+    mensagem: Devolva a decisão usando return.
+  - padrao: '&&'
+    mensagem: Combine os limites com &&.
+  desafio: false
+- id: desafio-entregas
+  titulo: Central de entregas
+  modo: completo
+  historia: |
+    Grande desafio: processe os pedidos da oficina, some quantidades válidas e conte etiquetas defeituosas!
+  explicacao: |
+    ### Transformar, validar e acumular
+    Cada pedido tem o formato `produto:quantidade`. `split(":")` divide o texto em partes. O produto pode ter espaços e a quantidade pode ser inválida.
+
+    1. Separe o pedido e limpe o nome com trim().
+    2. Converta a quantidade dentro de try/catch.
+    3. Acumule no Map: valor anterior + quantidade nova.
+    4. Conte erros de conversão sem interromper os próximos pedidos.
+
+    Os pedidos deste desafio sempre têm duas partes. Em um sistema real, valide também o formato, o intervalo e o tamanho da entrada. Aqui o foco é juntar String, Map, laço e tratamento de erro.
+  dica: |
+    Use String[] partes = pedido.split(":");. No try, faça parseInt e put com getOrDefault. No catch, incremente invalidos.
+  codigoInicial: |
+    import jogo.*;
+    import java.util.Map;
+    import java.util.HashMap;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] pedidos = {" bateria :2", "roda:4", "bateria:3", "roda:ops", "roda:2"};
+            Map<String, Integer> totais = new HashMap<>();
+            int invalidos = 0;
+            // Processe cada pedido aqui.
+            robo.falar("Baterias: " + totais.getOrDefault("bateria", 0));
+            robo.falar("Rodas: " + totais.getOrDefault("roda", 0));
+            robo.falar("Inválidos: " + invalidos);
+        }
+    }
+  solucao: |
+    import jogo.*;
+    import java.util.Map;
+    import java.util.HashMap;
+
+    public class Missao {
+        public static void main(String[] args) {
+            Robo robo = new Robo();
+            String[] pedidos = {" bateria :2", "roda:4", "bateria:3", "roda:ops", "roda:2"};
+            Map<String, Integer> totais = new HashMap<>();
+            int invalidos = 0;
+            for (String pedido : pedidos) {
+                String[] partes = pedido.split(":");
+                String produto = partes[0].trim();
+                try {
+                    int quantidade = Integer.parseInt(partes[1]);
+                    totais.put(produto, totais.getOrDefault(produto, 0) + quantidade);
+                } catch (NumberFormatException erro) {
+                    invalidos++;
+                }
+            }
+            robo.falar("Baterias: " + totais.getOrDefault("bateria", 0));
+            robo.falar("Rodas: " + totais.getOrDefault("roda", 0));
+            robo.falar("Inválidos: " + invalidos);
+        }
+    }
+  mapa:
+  - '#####'
+  - '#R..#'
+  - '#####'
+  objetivos:
+  - tipo: falar
+    texto: 'Baterias: 5'
+  - tipo: falar
+    texto: 'Rodas: 6'
+  - tipo: falar
+    texto: 'Inválidos: 1'
+  requisitos:
+  - padrao: \.split\s*\(
+    mensagem: Separe os pedidos com split().
+  - padrao: \.put\s*\(
+    mensagem: Acumule as quantidades no Map.
+  - padrao: \bcatch\s*\(
+    mensagem: Trate as etiquetas inválidas sem parar a central.
+  desafio: true

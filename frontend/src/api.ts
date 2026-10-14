@@ -20,7 +20,7 @@ export type PedidoDef = {
 export type Licao = {
   id: string;
   titulo: string;
-  tipo: 'mapa' | 'loja';
+  tipo: 'mapa' | 'loja' | 'terminal';
   modo: 'corpo' | 'completo';
   historia: string;
   explicacao: string;

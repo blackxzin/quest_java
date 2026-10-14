@@ -41,6 +41,22 @@ const TERMOS: Termo[] = [
   { grupo: 'Spring Boot', emoji: '🧾', palavra: 'JSON', explica: 'O jeito que os programas trocam informações.', exemplo: '{"nome": "Bateria", "preco": 10}' },
   { grupo: 'Spring Boot', emoji: '🚦', palavra: 'Status HTTP', explica: '200 deu certo, 404 não encontrado, 400 pedido errado, 500 erro no servidor.' },
   { grupo: 'Spring Boot', emoji: '💉', palavra: 'Injeção de dependência', explica: 'O Spring cria os @Service e entrega para quem pede no construtor.' },
+  { grupo: 'Git', emoji: '🌱', palavra: 'Repositório', explica: 'Projeto com histórico de versões. git init inicia um repositório local.' },
+  { grupo: 'Git', emoji: '🎒', palavra: 'Staging area', explica: 'Área de preparação: git add seleciona o conteúdo do próximo commit.' },
+  { grupo: 'Git', emoji: '📸', palavra: 'Commit', explica: 'Um ponto salvo no histórico, com mensagem e identificação. Não publica sozinho na internet.' },
+  { grupo: 'Git', emoji: '🌿', palavra: 'Branch e merge', explica: 'Branch é uma linha de desenvolvimento. Merge integra outra linha à branch atual.' },
+  { grupo: 'Git', emoji: '☁️', palavra: 'Remoto e push', explica: 'Remoto é o endereço de outro repositório. Push envia commits locais para ele. Git e GitHub não são a mesma coisa.' },
+  { grupo: 'Git', emoji: '🔎', palavra: 'Fetch e pull', explica: 'Fetch busca referências remotas. Pull busca e integra alterações segundo a configuração do Git.' },
+  { grupo: 'Git', emoji: '🤝', palavra: 'Conflito e pull request', explica: 'Conflito exige revisar mudanças incompatíveis. Pull request é um pedido de revisão e integração numa plataforma de hospedagem.' },
+  { grupo: 'Git', emoji: '🏷️', palavra: 'Tag', explica: 'Referência para um ponto específico do histórico, usada para marcar versões como v1.0.' },
+  { grupo: 'Docker', emoji: '📦', palavra: 'Imagem', explica: 'Pacote usado para criar contêineres. Pode ser obtido com pull ou construído com build.' },
+  { grupo: 'Docker', emoji: '🐳', palavra: 'Contêiner', explica: 'Instância isolada de uma imagem. Run cria; stop para; start reinicia; rm remove.' },
+  { grupo: 'Docker', emoji: '🚪', palavra: 'Publicar portas', explica: 'Em -p 8080:80, 8080 é a porta do computador e 80 a do contêiner. EXPOSE sozinho não publica portas.' },
+  { grupo: 'Docker', emoji: '📜', palavra: 'Dockerfile', explica: 'Receita de construção da imagem. FROM escolhe a base, COPY copia arquivos e ENTRYPOINT define o processo inicial.' },
+  { grupo: 'Docker', emoji: '🧰', palavra: 'Volume', explica: 'Armazenamento com vida separada do contêiner. A aplicação precisa escrever no caminho montado. Não substitui backup.' },
+  { grupo: 'Docker', emoji: '🎼', palavra: 'Compose', explica: 'Descreve serviços, redes e volumes em YAML. Up inicia; down remove os contêineres do projeto, preservando volumes nomeados por padrão.' },
+  { grupo: 'Docker', emoji: '📓', palavra: 'Logs', explica: 'Registros de saída do processo. Ajudam a entender o funcionamento e investigar erros.' },
+  { grupo: 'Java', emoji: '🛟', palavra: 'Exceção', explica: 'Sinal de que uma operação falhou. try/catch permite tratar um problema específico e oferecer uma resposta útil.' },
 ];
 
 export function PaginaDicionario() {

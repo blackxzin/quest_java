@@ -3,9 +3,11 @@ import { carregarModulos, type Modulo } from './api';
 import { Byte } from './components/Byte';
 import { PaginaDicionario } from './pages/Dicionario';
 import { PaginaInicio } from './pages/Inicio';
+import { modulosOficina } from './laboratorio/catalogo';
+import { PaginaOficina } from './pages/Oficina';
 import { PaginaLicao } from './pages/Licao';
 import { liberada, licoesEmOrdem, PaginaMapa } from './pages/Mapa';
-import { ouvirProgresso, totalEstrelas } from './progresso';
+import { ouvirProgresso, versaoProgresso } from './progresso';
 import { ir, useRota } from './rotas';
 
 export function App() {
@@ -13,10 +15,10 @@ export function App() {
   const [modulos, setModulos] = useState<Modulo[] | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   // Redesenha as telas quando o progresso muda.
-  useSyncExternalStore(ouvirProgresso, totalEstrelas);
+  useSyncExternalStore(ouvirProgresso, versaoProgresso);
 
   useEffect(() => {
-    carregarModulos().then(setModulos).catch((e) => setErro(String(e.message ?? e)));
+    carregarModulos().then(m => setModulos([...m, ...modulosOficina])).catch((e) => setErro(String(e.message ?? e)));
   }, []);
 
   const [pagina, parametro] = rota;
@@ -65,9 +67,10 @@ export function App() {
       </div>
     );
   }
-  const todas = licoesEmOrdem(modulos);
+  const todas = licoesEmOrdem(modulos).filter(l => l.id.startsWith('git-') === licao.id.startsWith('git-') && l.id.startsWith('docker-') === licao.id.startsWith('docker-'));
   const i = todas.findIndex((l) => l.id === licao.id);
   const proxima = i >= 0 && i + 1 < todas.length ? todas[i + 1] : null;
+  if (licao.tipo === 'terminal') return <PaginaOficina key={licao.id} modulo={modulo} licao={licao} proxima={proxima} />;
   return (
     <PaginaLicao
       key={licao.id}
