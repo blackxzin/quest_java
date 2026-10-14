@@ -1,0 +1,30 @@
+// "Motor" do jogo: as classes que o código do aluno usa (Robo) e o executor
+// que roda esse código num processo Java separado e conta tudo o que aconteceu.
+plugins { id 'java-library' }
+
+java { toolchain { languageVersion = JavaLanguageVersion.of(21) } }
+
+dependencies {
+    implementation platform('org.springframework.boot:spring-boot-dependencies:4.1.1')
+    // As anotações do Spring (@RestController, @GetMapping...) são as de verdade:
+    // o código que o aluno escreve na Loja funciona igualzinho num projeto Spring Boot real.
+    api 'org.springframework:spring-web'
+    api 'org.springframework:spring-context'
+    api 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation 'tools.jackson.core:jackson-databind'
+
+    testImplementation platform('org.junit:junit-bom:5.13.4')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.withType(JavaCompile).configureEach { options.encoding = 'UTF-8'; options.compilerArgs << '-parameters' }
+
+// Junta o motor e as bibliotecas dele numa pasta: é o classpath do código do aluno.
+tasks.register('sandboxLibs', Sync) {
+    from jar
+    from configurations.runtimeClasspath
+    into layout.buildDirectory.dir('sandbox-libs')
+}
+
+test { useJUnitPlatform() }

@@ -1,0 +1,5 @@
+**/node_modules
+**/build
+.gradle
+frontend/dist
+docs

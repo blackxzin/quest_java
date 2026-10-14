@@ -1,0 +1,799 @@
+id: spring-boot
+titulo: Loja do Robô (Spring Boot)
+emoji: "🏪"
+cor: "#00a8a8"
+descricao: Crie um servidor de verdade com Spring Boot e atenda os clientes da loja do Byte.
+licoes:
+
+  - id: primeiro-atendente
+    titulo: O primeiro atendente
+    tipo: loja
+    historia: |
+      O Byte abriu uma **loja**! 🏪 Os clientes chegam no balcão e fazem **pedidos**.
+      Você vai programar o atendente para responder cada um.
+    explicacao: |
+      Quando você abre um site ou um jogo online, o seu celular manda um **pedido** pela internet
+      para um computador chamado **servidor**. O servidor pensa e manda de volta uma **resposta**. 📨
+
+      Cada pedido tem duas partes:
+
+      - o **tipo**: `GET` quer dizer "me mostra / me dá"
+      - o **endereço** (caminho): `/ola`, `/tchau`...
+
+      O **Spring Boot** é a ferramenta mais usada do mundo para criar servidores em Java.
+      Bancos, lojas e apps enormes usam! Veja um atendente:
+
+      ```java
+      import org.springframework.web.bind.annotation.*;
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/ola")
+          public String ola() {
+              return "Olá, cliente!";
+          }
+      }
+      ```
+
+      - As palavras com `@` são **anotações**: etiquetas que dão instruções para o Spring.
+      - `@RestController` → "esta classe atende pedidos"
+      - `@GetMapping("/ola")` → "este método atende o pedido **GET /ola**"
+      - O que o método devolve com `return` é a **resposta** para o cliente!
+    dica: |
+      Copie o método ola, mude o endereço para "/tchau", o nome do método para tchau
+      e a resposta para "Volte sempre!".
+    codigoInicial: |
+      import org.springframework.web.bind.annotation.*;
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/ola")
+          public String ola() {
+              return "Olá, cliente!";
+          }
+
+          // Crie aqui o atendente do endereço /tchau
+          // Ele deve responder "Volte sempre!"
+      }
+    solucao: |
+      import org.springframework.web.bind.annotation.*;
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/ola")
+          public String ola() {
+              return "Olá, cliente!";
+          }
+
+          @GetMapping("/tchau")
+          public String tchau() {
+              return "Volte sempre!";
+          }
+      }
+    pedidos:
+      - metodo: GET
+        caminho: /ola
+        esperado: "Olá, cliente!"
+      - metodo: GET
+        caminho: /tchau
+        esperado: "Volte sempre!"
+
+  - id: cardapio
+    titulo: O cardápio em JSON
+    tipo: loja
+    historia: |
+      Os clientes querem ver o **cardápio** da loja e o **produto em destaque** do dia. 📋
+      Os programas conversam entre si numa linguagem chamada **JSON**.
+    explicacao: |
+      **JSON** é o jeito que os programas trocam informações pela internet. Parece assim:
+
+      ```
+      {"nome": "Bateria", "preco": 10}
+      ["Parafuso", "Bateria", "Óleo"]
+      ```
+
+      - `{ }` → um objeto, com nomes e valores
+      - `[ ]` → uma lista
+
+      A melhor parte: o Spring transforma os seus objetos Java em JSON **sozinho**!
+      Se o método devolver uma lista ou um objeto, o cliente recebe JSON.
+
+      Para criar uma classe só para guardar dados, o Java tem um atalho, o `record`:
+
+      ```java
+      record Produto(String nome, int preco) {}
+
+      new Produto("Bateria", 10)   // vira {"nome":"Bateria","preco":10}
+      ```
+    dica: |
+      No método destaque, devolva `new Produto("Bateria", 10)`.
+    codigoInicial: |
+      import java.util.List;
+      import org.springframework.web.bind.annotation.*;
+
+      record Produto(String nome, int preco) {}
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/cardapio")
+          public List<String> cardapio() {
+              return List.of("Parafuso", "Bateria", "Óleo");
+          }
+
+          @GetMapping("/destaque")
+          public Produto destaque() {
+              // O destaque de hoje é a Bateria, que custa 10
+              return new Produto("Parafuso", 1);
+          }
+      }
+    solucao: |
+      import java.util.List;
+      import org.springframework.web.bind.annotation.*;
+
+      record Produto(String nome, int preco) {}
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/cardapio")
+          public List<String> cardapio() {
+              return List.of("Parafuso", "Bateria", "Óleo");
+          }
+
+          @GetMapping("/destaque")
+          public Produto destaque() {
+              return new Produto("Bateria", 10);
+          }
+      }
+    pedidos:
+      - metodo: GET
+        caminho: /cardapio
+        esperadoJson: ["Parafuso", "Bateria", "Óleo"]
+      - metodo: GET
+        caminho: /destaque
+        esperadoJson: {nome: Bateria, preco: 10}
+
+  - id: path-variable
+    titulo: Endereços com nomes
+    tipo: loja
+    historia: |
+      Os clientes querem ser chamados pelo nome! 😊 E alguns pedem para o Byte **dobrar** números.
+    explicacao: |
+      Dá para colocar um **pedaço variável** no endereço, entre chaves:
+
+      ```java
+      @GetMapping("/ola/{nome}")
+      public String ola(@PathVariable String nome) {
+          return "Olá, " + nome + "!";
+      }
+      ```
+
+      - Pedido `GET /ola/Ana` → `nome` vale `"Ana"` → resposta `Olá, Ana!`
+      - Pedido `GET /ola/Leo` → `nome` vale `"Leo"` → resposta `Olá, Leo!`
+      - `@PathVariable` → "pegue este valor do caminho (*path*)"
+
+      Se o parâmetro for `int`, o Spring transforma o texto do endereço em número para você!
+    dica: |
+      No método dobro, troque o `return 0;` por `return numero * 2;`
+    codigoInicial: |
+      import org.springframework.web.bind.annotation.*;
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/ola/{nome}")
+          public String ola(@PathVariable String nome) {
+              return "Olá, " + nome + "!";
+          }
+
+          @GetMapping("/dobro/{numero}")
+          public int dobro(@PathVariable int numero) {
+              // Devolva o dobro do número!
+              return 0;
+          }
+      }
+    solucao: |
+      import org.springframework.web.bind.annotation.*;
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/ola/{nome}")
+          public String ola(@PathVariable String nome) {
+              return "Olá, " + nome + "!";
+          }
+
+          @GetMapping("/dobro/{numero}")
+          public int dobro(@PathVariable int numero) {
+              return numero * 2;
+          }
+      }
+    pedidos:
+      - metodo: GET
+        caminho: /ola/Ana
+        esperado: "Olá, Ana!"
+      - metodo: GET
+        caminho: /ola/Leo
+        esperado: "Olá, Leo!"
+      - metodo: GET
+        caminho: /dobro/4
+        esperado: "8"
+      - metodo: GET
+        caminho: /dobro/21
+        esperado: "42"
+
+  - id: request-param
+    titulo: Perguntas no pedido
+    tipo: loja
+    historia: |
+      Agora os clientes mandam **perguntas** junto com o pedido: quanto pagaram, qual palavra repetir... ❓
+    explicacao: |
+      Depois do `?` no endereço vêm os **parâmetros**, separados por `&`:
+
+      ```
+      GET /troco?pago=10&preco=7
+      ```
+
+      Aqui o cliente mandou `pago` valendo 10 e `preco` valendo 7. Para receber:
+
+      ```java
+      @GetMapping("/troco")
+      public int troco(@RequestParam int pago, @RequestParam int preco) {
+          return pago - preco;   // responde 3
+      }
+      ```
+
+      - `@RequestParam` → "pegue este valor das perguntas do pedido"
+      - O nome do parâmetro Java precisa ser igual ao nome no endereço!
+    dica: |
+      No repetir, use um for que junta a palavra: `resultado = resultado + palavra;` (vezes vezes).
+    codigoInicial: |
+      import org.springframework.web.bind.annotation.*;
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/troco")
+          public int troco(@RequestParam int pago, @RequestParam int preco) {
+              return pago - preco;
+          }
+
+          @GetMapping("/repetir")
+          public String repetir(@RequestParam String palavra, @RequestParam int vezes) {
+              String resultado = "";
+              // Junte a palavra no resultado, "vezes" vezes
+              resultado = palavra;
+              return resultado;
+          }
+      }
+    solucao: |
+      import org.springframework.web.bind.annotation.*;
+
+      @RestController
+      public class LojaController {
+
+          @GetMapping("/troco")
+          public int troco(@RequestParam int pago, @RequestParam int preco) {
+              return pago - preco;
+          }
+
+          @GetMapping("/repetir")
+          public String repetir(@RequestParam String palavra, @RequestParam int vezes) {
+              String resultado = "";
+              for (int i = 0; i < vezes; i++) {
+                  resultado = resultado + palavra;
+              }
+              return resultado;
+          }
+      }
+    pedidos:
+      - metodo: GET
+        caminho: /troco?pago=10&preco=7
+        esperado: "3"
+      - metodo: GET
+        caminho: /troco?pago=50&preco=25
+        esperado: "25"
+      - metodo: GET
+        caminho: /repetir?palavra=oi&vezes=3
+        esperado: "oioioi"
+      - metodo: GET
+        caminho: /repetir?palavra=bip&vezes=2
+        esperado: "bipbip"
+
+  - id: service
+    titulo: O ajudante do estoque
+    tipo: loja
+    historia: |
+      A loja cresceu! 📦 O atendente do balcão agora tem um **ajudante** lá no estoque,
+      que sabe quantas peças tem de cada coisa.
+    explicacao: |
+      Em programas de verdade, cada classe tem **um trabalho**:
+
+      - o **Controller** é o atendente do balcão: recebe os pedidos e responde
+      - o **Service** é o ajudante lá dentro: cuida das regras e dos dados
+
+      ```java
+      @Service
+      class EstoqueService {
+          int quantidade(String item) { ... }
+      }
+      ```
+
+      E como o atendente consegue o ajudante? Ele **pede no construtor**, e o Spring entrega sozinho!
+
+      ```java
+      public LojaController(EstoqueService estoque) {
+          this.estoque = estoque;
+      }
+      ```
+
+      Isso se chama **injeção de dependência**. 💉 O Spring cria o EstoqueService e "injeta"
+      no atendente. Mas para isso o ajudante precisa da etiqueta `@Service`!
+
+      Para guardar o estoque, usamos um `Map`: um **dicionário** que liga um nome a um valor
+      (`"bateria"` → 5).
+    dica: |
+      Coloque `@Service` em cima de `class EstoqueService` e adicione `estoque.put("oleo", 8);` no construtor.
+    codigoInicial: |
+      import java.util.HashMap;
+      import java.util.Map;
+      import org.springframework.stereotype.Service;
+      import org.springframework.web.bind.annotation.*;
+
+      // Falta uma etiqueta aqui em cima para o Spring conhecer o ajudante!
+      class EstoqueService {
+          private final Map<String, Integer> estoque = new HashMap<>();
+
+          EstoqueService() {
+              estoque.put("bateria", 5);
+              estoque.put("parafuso", 20);
+              // Chegaram 8 latas de "oleo"!
+          }
+
+          int quantidade(String item) {
+              return estoque.getOrDefault(item, 0);
+          }
+      }
+
+      @RestController
+      public class LojaController {
+          private final EstoqueService estoque;
+
+          public LojaController(EstoqueService estoque) {
+              this.estoque = estoque;
+          }
+
+          @GetMapping("/estoque/{item}")
+          public int quantos(@PathVariable String item) {
+              return estoque.quantidade(item);
+          }
+      }
+    solucao: |
+      import java.util.HashMap;
+      import java.util.Map;
+      import org.springframework.stereotype.Service;
+      import org.springframework.web.bind.annotation.*;
+
+      @Service
+      class EstoqueService {
+          private final Map<String, Integer> estoque = new HashMap<>();
+
+          EstoqueService() {
+              estoque.put("bateria", 5);
+              estoque.put("parafuso", 20);
+              estoque.put("oleo", 8);
+          }
+
+          int quantidade(String item) {
+              return estoque.getOrDefault(item, 0);
+          }
+      }
+
+      @RestController
+      public class LojaController {
+          private final EstoqueService estoque;
+
+          public LojaController(EstoqueService estoque) {
+              this.estoque = estoque;
+          }
+
+          @GetMapping("/estoque/{item}")
+          public int quantos(@PathVariable String item) {
+              return estoque.quantidade(item);
+          }
+      }
+    pedidos:
+      - metodo: GET
+        caminho: /estoque/bateria
+        esperado: "5"
+      - metodo: GET
+        caminho: /estoque/parafuso
+        esperado: "20"
+      - metodo: GET
+        caminho: /estoque/oleo
+        esperado: "8"
+      - metodo: GET
+        caminho: /estoque/banana
+        esperado: "0"
+    requisitos:
+      - padrao: '@Service'
+        mensagem: Marque o EstoqueService com @Service.
+
+  - id: post
+    titulo: Recebendo compras
+    tipo: loja
+    historia: |
+      Os clientes agora querem **comprar**! 🛒 Eles mandam o pedido de compra com o item e a quantidade,
+      e o estoque precisa diminuir.
+    explicacao: |
+      Até agora todos os pedidos eram `GET` ("me mostra"). Para **enviar** alguma coisa
+      para o servidor, usamos o `POST`, como quem envia um formulário. 📮
+
+      O pedido POST vem com um **corpo** em JSON:
+
+      ```
+      POST /comprar
+      {"item": "bateria", "quantidade": 2}
+      ```
+
+      O Spring transforma esse JSON num objeto Java para você, com o `@RequestBody`:
+
+      ```java
+      record Pedido(String item, int quantidade) {}
+
+      @PostMapping("/comprar")
+      public String comprar(@RequestBody Pedido pedido) {
+          // pedido.item() é "bateria", pedido.quantidade() é 2
+      }
+      ```
+
+      Repare que a loja **lembra** das compras: depois de vender 2 baterias, o estoque fica com 3!
+    dica: |
+      No comprar: chame `estoque.retirar(pedido.item(), pedido.quantidade());` e devolva
+      `"Compra feita! Restam " + estoque.quantidade(pedido.item()) + " de " + pedido.item()`.
+    codigoInicial: |
+      import java.util.HashMap;
+      import java.util.Map;
+      import org.springframework.stereotype.Service;
+      import org.springframework.web.bind.annotation.*;
+
+      record Pedido(String item, int quantidade) {}
+
+      @Service
+      class EstoqueService {
+          private final Map<String, Integer> estoque = new HashMap<>();
+
+          EstoqueService() {
+              estoque.put("bateria", 5);
+              estoque.put("parafuso", 20);
+          }
+
+          int quantidade(String item) {
+              return estoque.getOrDefault(item, 0);
+          }
+
+          void retirar(String item, int quantos) {
+              estoque.put(item, quantidade(item) - quantos);
+          }
+      }
+
+      @RestController
+      public class LojaController {
+          private final EstoqueService estoque;
+
+          public LojaController(EstoqueService estoque) {
+              this.estoque = estoque;
+          }
+
+          @GetMapping("/estoque/{item}")
+          public int quantos(@PathVariable String item) {
+              return estoque.quantidade(item);
+          }
+
+          @PostMapping("/comprar")
+          public String comprar(@RequestBody Pedido pedido) {
+              // 1. Tire os itens do estoque
+              // 2. Responda: "Compra feita! Restam 3 de bateria"
+              return "Compra feita!";
+          }
+      }
+    solucao: |
+      import java.util.HashMap;
+      import java.util.Map;
+      import org.springframework.stereotype.Service;
+      import org.springframework.web.bind.annotation.*;
+
+      record Pedido(String item, int quantidade) {}
+
+      @Service
+      class EstoqueService {
+          private final Map<String, Integer> estoque = new HashMap<>();
+
+          EstoqueService() {
+              estoque.put("bateria", 5);
+              estoque.put("parafuso", 20);
+          }
+
+          int quantidade(String item) {
+              return estoque.getOrDefault(item, 0);
+          }
+
+          void retirar(String item, int quantos) {
+              estoque.put(item, quantidade(item) - quantos);
+          }
+      }
+
+      @RestController
+      public class LojaController {
+          private final EstoqueService estoque;
+
+          public LojaController(EstoqueService estoque) {
+              this.estoque = estoque;
+          }
+
+          @GetMapping("/estoque/{item}")
+          public int quantos(@PathVariable String item) {
+              return estoque.quantidade(item);
+          }
+
+          @PostMapping("/comprar")
+          public String comprar(@RequestBody Pedido pedido) {
+              estoque.retirar(pedido.item(), pedido.quantidade());
+              return "Compra feita! Restam " + estoque.quantidade(pedido.item()) + " de " + pedido.item();
+          }
+      }
+    pedidos:
+      - metodo: GET
+        caminho: /estoque/bateria
+        esperado: "5"
+      - metodo: POST
+        caminho: /comprar
+        corpo: {item: bateria, quantidade: 2}
+        esperado: "Compra feita! Restam 3 de bateria"
+      - metodo: GET
+        caminho: /estoque/bateria
+        esperado: "3"
+      - metodo: POST
+        caminho: /comprar
+        corpo: {item: parafuso, quantidade: 5}
+        esperado: "Compra feita! Restam 15 de parafuso"
+
+  - id: status
+    titulo: Quando dá errado
+    tipo: loja
+    historia: |
+      Um cliente pediu **10 baterias**, mas só temos 5! 😱 E outro procurou **banana** numa loja de robôs...
+      O servidor precisa avisar quando algo dá errado.
+    explicacao: |
+      Toda resposta tem um **código de status**, um número que diz se deu certo:
+
+      - `200` ✅ **OK**: deu tudo certo
+      - `404` 🔍 **Não encontrado**: aquilo não existe (sabe a famosa "página não encontrada"? é o 404!)
+      - `400` 🙅 **Pedido errado**: o cliente pediu algo que não dá para fazer
+      - `500` 💥 **Erro no servidor**: o programa do servidor quebrou
+
+      Para escolher o status da resposta, usamos o `ResponseEntity` ("resposta com etiqueta"):
+
+      ```java
+      return ResponseEntity.ok("Tudo certo!");                   // 200
+      return ResponseEntity.notFound().build();                  // 404
+      return ResponseEntity.badRequest().body("Não deu!");      // 400
+      ```
+
+      O `/estoque` já responde 404 para itens que não existem. Agora é a sua vez com o `/comprar`!
+    dica: |
+      No comprar, antes de retirar: `if (estoque.quantidade(pedido.item()) < pedido.quantidade()) { return ResponseEntity.badRequest().body("Não temos " + pedido.quantidade() + " de " + pedido.item() + "!"); }`
+    codigoInicial: |
+      import java.util.HashMap;
+      import java.util.Map;
+      import org.springframework.http.ResponseEntity;
+      import org.springframework.stereotype.Service;
+      import org.springframework.web.bind.annotation.*;
+
+      record Pedido(String item, int quantidade) {}
+
+      @Service
+      class EstoqueService {
+          private final Map<String, Integer> estoque = new HashMap<>();
+
+          EstoqueService() {
+              estoque.put("bateria", 5);
+              estoque.put("parafuso", 20);
+          }
+
+          boolean existe(String item) {
+              return estoque.containsKey(item);
+          }
+
+          int quantidade(String item) {
+              return estoque.getOrDefault(item, 0);
+          }
+
+          void retirar(String item, int quantos) {
+              estoque.put(item, quantidade(item) - quantos);
+          }
+      }
+
+      @RestController
+      public class LojaController {
+          private final EstoqueService estoque;
+
+          public LojaController(EstoqueService estoque) {
+              this.estoque = estoque;
+          }
+
+          @GetMapping("/estoque/{item}")
+          public ResponseEntity<Integer> quantos(@PathVariable String item) {
+              if (!estoque.existe(item)) {
+                  return ResponseEntity.notFound().build();
+              }
+              return ResponseEntity.ok(estoque.quantidade(item));
+          }
+
+          @PostMapping("/comprar")
+          public ResponseEntity<String> comprar(@RequestBody Pedido pedido) {
+              // Se não tiver o suficiente, responda 400:
+              // "Não temos 10 de bateria!"
+
+              estoque.retirar(pedido.item(), pedido.quantidade());
+              return ResponseEntity.ok("Compra feita!");
+          }
+      }
+    solucao: |
+      import java.util.HashMap;
+      import java.util.Map;
+      import org.springframework.http.ResponseEntity;
+      import org.springframework.stereotype.Service;
+      import org.springframework.web.bind.annotation.*;
+
+      record Pedido(String item, int quantidade) {}
+
+      @Service
+      class EstoqueService {
+          private final Map<String, Integer> estoque = new HashMap<>();
+
+          EstoqueService() {
+              estoque.put("bateria", 5);
+              estoque.put("parafuso", 20);
+          }
+
+          boolean existe(String item) {
+              return estoque.containsKey(item);
+          }
+
+          int quantidade(String item) {
+              return estoque.getOrDefault(item, 0);
+          }
+
+          void retirar(String item, int quantos) {
+              estoque.put(item, quantidade(item) - quantos);
+          }
+      }
+
+      @RestController
+      public class LojaController {
+          private final EstoqueService estoque;
+
+          public LojaController(EstoqueService estoque) {
+              this.estoque = estoque;
+          }
+
+          @GetMapping("/estoque/{item}")
+          public ResponseEntity<Integer> quantos(@PathVariable String item) {
+              if (!estoque.existe(item)) {
+                  return ResponseEntity.notFound().build();
+              }
+              return ResponseEntity.ok(estoque.quantidade(item));
+          }
+
+          @PostMapping("/comprar")
+          public ResponseEntity<String> comprar(@RequestBody Pedido pedido) {
+              if (estoque.quantidade(pedido.item()) < pedido.quantidade()) {
+                  return ResponseEntity.badRequest()
+                          .body("Não temos " + pedido.quantidade() + " de " + pedido.item() + "!");
+              }
+              estoque.retirar(pedido.item(), pedido.quantidade());
+              return ResponseEntity.ok("Compra feita!");
+          }
+      }
+    pedidos:
+      - metodo: GET
+        caminho: /estoque/bateria
+        esperado: "5"
+      - metodo: GET
+        caminho: /estoque/banana
+        status: 404
+      - metodo: POST
+        caminho: /comprar
+        corpo: {item: bateria, quantidade: 2}
+        esperado: "Compra feita!"
+      - metodo: POST
+        caminho: /comprar
+        corpo: {item: bateria, quantidade: 10}
+        status: 400
+        esperado: "Não temos 10 de bateria!"
+
+  - id: mundo-real
+    titulo: Seu Spring Boot de verdade
+    tipo: loja
+    desafio: true
+    historia: |
+      🎓 **Missão final!** Você já sabe criar um servidor. Agora vamos ver como ele fica num
+      projeto Spring Boot **de verdade**, igualzinho ao que os profissionais fazem!
+    explicacao: |
+      Todo projeto Spring Boot tem uma classe principal com a etiqueta `@SpringBootApplication`
+      e um `main` que **liga o servidor**:
+
+      ```java
+      @SpringBootApplication
+      public class LojaApplication {
+          public static void main(String[] args) {
+              SpringApplication.run(LojaApplication.class, args);
+          }
+      }
+      ```
+
+      **Como criar o seu projeto no seu computador:** 💻
+
+      1. Entre no site **start.spring.io**
+      2. Escolha *Java*, adicione a dependência **Spring Web** e clique em *Generate*
+      3. Abra a pasta baixada no **IntelliJ IDEA** ou no **VS Code**
+      4. Crie o seu `@RestController`, igual você aprendeu aqui
+      5. Rode o projeto (botão ▶ ou `./gradlew bootRun`)
+      6. Abra no navegador: `http://localhost:8080/missao` 🎉
+
+      Curiosidade: o próprio **JavaQuest** é feito com Spring Boot! O servidor que roda o seu código
+      usa `@RestController` e `@PostMapping`, exatamente o que você aprendeu.
+    dica: |
+      Escreva a classe LojaApplication da explicação (com @SpringBootApplication e o main)
+      e faça o /missao responder "Eu sei Spring Boot!".
+    codigoInicial: |
+      import org.springframework.boot.SpringApplication;
+      import org.springframework.boot.autoconfigure.SpringBootApplication;
+      import org.springframework.web.bind.annotation.*;
+
+      // 1. Crie aqui a classe LojaApplication, com @SpringBootApplication e o main
+
+
+      @RestController
+      class LojaController {
+
+          @GetMapping("/missao")
+          public String missao() {
+              // 2. Responda "Eu sei Spring Boot!"
+              return "";
+          }
+      }
+    solucao: |
+      import org.springframework.boot.SpringApplication;
+      import org.springframework.boot.autoconfigure.SpringBootApplication;
+      import org.springframework.web.bind.annotation.*;
+
+      @SpringBootApplication
+      public class LojaApplication {
+          public static void main(String[] args) {
+              SpringApplication.run(LojaApplication.class, args);
+          }
+      }
+
+      @RestController
+      class LojaController {
+
+          @GetMapping("/missao")
+          public String missao() {
+              return "Eu sei Spring Boot!";
+          }
+      }
+    pedidos:
+      - metodo: GET
+        caminho: /missao
+        esperado: "Eu sei Spring Boot!"
+    requisitos:
+      - padrao: '@SpringBootApplication'
+        mensagem: Crie a classe principal com @SpringBootApplication.
+      - padrao: 'SpringApplication\.run'
+        mensagem: No main, ligue o servidor com SpringApplication.run(LojaApplication.class, args);

@@ -1,0 +1,4 @@
+subprojects {
+    group = 'br.javaquest'
+    version = '1.0.0'
+}

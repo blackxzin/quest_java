@@ -1,0 +1,615 @@
+id: poo
+titulo: Fábrica de Robôs
+emoji: "🏭"
+cor: "#6c5ce7"
+descricao: "Programação Orientada a Objetos: classes, objetos, herança, polimorfismo e interfaces."
+licoes:
+
+  - id: objetos
+    titulo: Muitos robôs!
+    modo: completo
+    historia: |
+      Bem-vindo à **Fábrica de Robôs**! 🏭 Hoje o Byte vai ganhar companhia:
+      a **Bia** e o **Leo** precisam chegar cada um na sua bandeira.
+    explicacao: |
+      Lembra do `new Robo()`? Agora vamos entender!
+
+      Uma **classe** é como uma **fôrma de biscoito**. 🍪 A classe `Robo` diz como todo robô é:
+      ele anda, vira, pega moedas, fala...
+
+      Cada vez que você escreve `new Robo()`, a fábrica usa a fôrma para fazer um robô **novinho**.
+      Cada robô criado é um **objeto**.
+
+      ```java
+      Robo bia = new Robo("Bia", "rosa");
+      Robo leo = new Robo("Leo", "verde");
+
+      bia.andar();   // só a Bia anda
+      leo.falar("Oi!");  // só o Leo fala
+      ```
+
+      - Os dois saíram da mesma fôrma (a classe `Robo`), mas **cada um é um objeto diferente**,
+        com seu próprio lugar no mapa e suas próprias moedas.
+      - O que vai entre os parênteses (`"Bia", "rosa"`) é entregue para o **construtor**, que monta o robô.
+      - Cores: azul, vermelho, verde, amarelo, roxo, rosa e laranja.
+    dica: |
+      Crie o Leo com `Robo leo = new Robo("Leo", "verde");` e, dentro do for, faça `leo.andar();` também.
+    codigoInicial: |
+      import jogo.*;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo bia = new Robo("Bia", "rosa");
+              // Crie o Leo aqui!
+
+              for (int i = 0; i < 4; i++) {
+                  bia.andar();
+              }
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo bia = new Robo("Bia", "rosa");
+              Robo leo = new Robo("Leo", "verde");
+
+              for (int i = 0; i < 4; i++) {
+                  bia.andar();
+                  leo.andar();
+              }
+          }
+      }
+    mapa:
+      - "#######"
+      - "#R...F#"
+      - "#######"
+      - "#R...F#"
+      - "#######"
+    objetivos:
+      - tipo: robos
+        quantidade: 2
+      - tipo: chegar
+
+  - id: robo-esperto
+    titulo: O Robô Esperto
+    modo: completo
+    historia: |
+      Os engenheiros da fábrica querem um modelo novo: o **RoboEsperto**! 🧠
+      Ele sabe tudo o que um robô normal sabe, e mais alguns truques.
+    explicacao: |
+      Dá para criar uma classe nova **a partir** de outra. Isso se chama **herança**:
+
+      ```java
+      class RoboEsperto extends Robo {
+          RoboEsperto(String nome) {
+              super(nome);
+          }
+
+          void virarAtras() {
+              virarDireita();
+              virarDireita();
+          }
+      }
+      ```
+
+      - `extends Robo` → "o RoboEsperto **é um** Robo". Ele **herda** tudo: andar, virar, falar...
+      - `super(nome)` → chama o construtor do "pai" (o Robo) para montar a parte de robô
+      - Dentro da classe, dá para chamar `virarDireita()` direto: é o próprio robô fazendo!
+
+      Repare: o RoboEsperto tem **dois** `andar`: o normal `andar()` e o novo `andar(int passos)`.
+      O Java sabe qual usar pelo que vai entre os parênteses!
+    dica: |
+      No método virarAtras, gire duas vezes: `virarDireita(); virarDireita();`
+    codigoInicial: |
+      import jogo.*;
+
+      class RoboEsperto extends Robo {
+          RoboEsperto(String nome) {
+              super(nome);
+          }
+
+          void andar(int passos) {
+              for (int i = 0; i < passos; i++) {
+                  andar();
+              }
+          }
+
+          void virarAtras() {
+              // Ensine o robô a dar meia-volta!
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              RoboEsperto esperto = new RoboEsperto("Byte");
+              esperto.andar(4);
+              esperto.pegarMoeda();
+              esperto.virarAtras();
+              esperto.andar(5);
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      class RoboEsperto extends Robo {
+          RoboEsperto(String nome) {
+              super(nome);
+          }
+
+          void andar(int passos) {
+              for (int i = 0; i < passos; i++) {
+                  andar();
+              }
+          }
+
+          void virarAtras() {
+              virarDireita();
+              virarDireita();
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              RoboEsperto esperto = new RoboEsperto("Byte");
+              esperto.andar(4);
+              esperto.pegarMoeda();
+              esperto.virarAtras();
+              esperto.andar(5);
+          }
+      }
+    mapa:
+      - "########"
+      - "#FR...M#"
+      - "########"
+    objetivos:
+      - tipo: moedas
+      - tipo: chegar
+    requisitos:
+      - padrao: 'extends\s+Robo'
+        mensagem: Use a classe RoboEsperto, que estende (extends) o Robo.
+
+  - id: atributos
+    titulo: A memória do robô
+    modo: completo
+    historia: |
+      O **RoboContador** conta cada passo que dá, e no final diz quantos foram. 👣
+      Cada mundo tem um corredor de tamanho diferente!
+    explicacao: |
+      Uma classe pode ter **atributos**: caixinhas que **o objeto** guarda dentro dele.
+
+      ```java
+      class RoboContador extends Robo {
+          private int passos = 0;
+
+          void andarContando() {
+              andar();
+              passos++;
+          }
+
+          int getPassos() {
+              return passos;
+          }
+      }
+      ```
+
+      - `passos` é um atributo: cada RoboContador tem o **seu próprio** contador.
+      - `private` → só a própria classe pode mexer. É como um **diário com cadeado** 🔒.
+        Ninguém de fora consegue bagunçar a conta!
+      - `getPassos()` → um método para os outros **lerem** o valor (mas não mudarem).
+        Isso se chama **encapsulamento**.
+    dica: |
+      No método andarContando, depois do `andar();`, some 1 no atributo: `passos++;`
+    codigoInicial: |
+      import jogo.*;
+
+      class RoboContador extends Robo {
+          private int passos = 0;
+
+          void andarContando() {
+              andar();
+              // e conte o passo!
+          }
+
+          int getPassos() {
+              return passos;
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              RoboContador robo = new RoboContador();
+              while (!robo.chegou()) {
+                  robo.andarContando();
+              }
+              robo.falar("Andei " + robo.getPassos() + " passos!");
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      class RoboContador extends Robo {
+          private int passos = 0;
+
+          void andarContando() {
+              andar();
+              passos++;
+          }
+
+          int getPassos() {
+              return passos;
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              RoboContador robo = new RoboContador();
+              while (!robo.chegou()) {
+                  robo.andarContando();
+              }
+              robo.falar("Andei " + robo.getPassos() + " passos!");
+          }
+      }
+    mundos:
+      - mapa:
+          - "#######"
+          - "#R...F#"
+          - "#######"
+        objetivos:
+          - tipo: falar
+            texto: "Andei 4 passos!"
+      - mapa:
+          - "##########"
+          - "#R......F#"
+          - "##########"
+        objetivos:
+          - tipo: falar
+            texto: "Andei 7 passos!"
+      - mapa:
+          - "#####"
+          - "#R.F#"
+          - "#####"
+        objetivos:
+          - tipo: falar
+            texto: "Andei 2 passos!"
+    objetivos:
+      - tipo: chegar
+    requisitos:
+      - padrao: 'private\s+int'
+        mensagem: Guarde os passos num atributo private int.
+
+  - id: construtores
+    titulo: O placar de pontos
+    modo: completo
+    historia: |
+      Toda partida precisa de um **placar**! 🏆 Cada moeda vale 10 pontos.
+      Vamos criar a classe `Placar`, que não é um robô: é uma classe novinha, só nossa.
+    explicacao: |
+      O **construtor** é o que acontece quando o objeto **nasce** (no `new`).
+      Ele tem o mesmo nome da classe e não tem tipo de retorno:
+
+      ```java
+      class Placar {
+          private String dono;
+          private int pontos;
+
+          Placar(String dono) {
+              this.dono = dono;
+              this.pontos = 0;
+          }
+      }
+      ```
+
+      - `new Placar("Byte")` → chama o construtor com `dono` valendo `"Byte"`
+      - `this` quer dizer "**eu mesmo**, este objeto".
+        `this.dono` é o atributo do placar; `dono` sozinho é o parâmetro que chegou.
+        Então `this.dono = dono;` quer dizer: "guarde no **meu** dono o dono que me deram".
+    dica: |
+      No construtor, escreva `this.dono = dono;`. No ganhar, escreva `pontos = pontos + quantos;`
+    codigoInicial: |
+      import jogo.*;
+
+      class Placar {
+          private String dono;
+          private int pontos;
+
+          Placar(String dono) {
+              // guarde o dono aqui, com this.dono = dono;
+          }
+
+          void ganhar(int quantos) {
+              // some os pontos!
+          }
+
+          String resumo() {
+              return dono + " tem " + pontos + " pontos";
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              Placar placar = new Placar("Byte");
+
+              while (robo.frenteLivre()) {
+                  robo.andar();
+                  if (robo.temMoeda()) {
+                      robo.pegarMoeda();
+                      placar.ganhar(10);
+                  }
+              }
+              robo.falar(placar.resumo());
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      class Placar {
+          private String dono;
+          private int pontos;
+
+          Placar(String dono) {
+              this.dono = dono;
+              this.pontos = 0;
+          }
+
+          void ganhar(int quantos) {
+              pontos = pontos + quantos;
+          }
+
+          String resumo() {
+              return dono + " tem " + pontos + " pontos";
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo robo = new Robo();
+              Placar placar = new Placar("Byte");
+
+              while (robo.frenteLivre()) {
+                  robo.andar();
+                  if (robo.temMoeda()) {
+                      robo.pegarMoeda();
+                      placar.ganhar(10);
+                  }
+              }
+              robo.falar(placar.resumo());
+          }
+      }
+    mapa:
+      - "########"
+      - "#RM.M.M#"
+      - "########"
+    objetivos:
+      - tipo: moedas
+      - tipo: falar
+        texto: "Byte tem 30 pontos"
+    requisitos:
+      - padrao: 'this\.dono'
+        mensagem: Guarde o dono no construtor com this.dono = dono;
+
+  - id: polimorfismo
+    titulo: Cada um do seu jeito
+    modo: completo
+    historia: |
+      O **Flash** é um robô de corrida! ⚡ Quando alguém manda ele andar, ele dá **dois** passos de uma vez.
+      Ele e o **Lento** vão receber a mesma ordem, mas cada um faz do seu jeito.
+    explicacao: |
+      Uma classe filha pode **trocar o jeito** de fazer um método do pai. Isso é **sobrescrever**:
+
+      ```java
+      class RoboRapido extends Robo {
+          @Override
+          public void andar() {
+              super.andar();
+              super.andar();
+          }
+      }
+      ```
+
+      - `@Override` → uma etiqueta que avisa: "estou trocando um método que já existia"
+      - `public` → precisa ser igual ao do pai (o `andar()` do Robo é public)
+      - `super.andar()` → "use o andar do meu pai" (o andar normal, de um passo)
+
+      E agora a mágica, o **polimorfismo** ("muitas formas"):
+
+      ```java
+      Robo[] time = { new Robo("Lento"), new RoboRapido("Flash") };
+      for (Robo r : time) {
+          r.andar();   // o Lento anda 1, o Flash anda 2!
+      }
+      ```
+
+      A lista é de `Robo`, e o Flash cabe nela porque um RoboRapido **é um** Robo.
+      A ordem é a mesma (`andar()`), mas cada objeto faz do seu jeito! 🎭
+    dica: |
+      No andar do RoboRapido, escreva `super.andar();` duas vezes.
+    codigoInicial: |
+      import jogo.*;
+
+      class RoboRapido extends Robo {
+          RoboRapido(String nome) {
+              super(nome, "vermelho");
+          }
+
+          @Override
+          public void andar() {
+              super.andar();
+              // O Flash é rápido: deveria dar 2 passos!
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo[] time = { new Robo("Lento"), new RoboRapido("Flash") };
+
+              for (int i = 0; i < 3; i++) {
+                  for (Robo r : time) {
+                      r.andar();
+                  }
+              }
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      class RoboRapido extends Robo {
+          RoboRapido(String nome) {
+              super(nome, "vermelho");
+          }
+
+          @Override
+          public void andar() {
+              super.andar();
+              super.andar();
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo[] time = { new Robo("Lento"), new RoboRapido("Flash") };
+
+              for (int i = 0; i < 3; i++) {
+                  for (Robo r : time) {
+                      r.andar();
+                  }
+              }
+          }
+      }
+    mapa:
+      - "#########"
+      - "#R..F####"
+      - "#########"
+      - "#R.....F#"
+      - "#########"
+    objetivos:
+      - tipo: robos
+        quantidade: 2
+      - tipo: chegar
+    requisitos:
+      - padrao: '@Override'
+        mensagem: Use @Override no andar do RoboRapido.
+
+  - id: interfaces
+    titulo: Contratos de trabalho
+    modo: completo
+    desafio: true
+    historia: |
+      ⭐ **Desafio!** A fábrica contratou dois robôs: a **Ana** vai **coletar** as moedas
+      e o **Teo** vai **levar um recado** até a bandeira. Cada um tem um tipo de trabalho! 📜
+    explicacao: |
+      Uma **interface** é um **contrato**: ela diz **o que** precisa existir, mas não **como** fazer.
+
+      ```java
+      interface Trabalho {
+          void executar(Robo r);
+      }
+      ```
+
+      Toda classe que assina o contrato (`implements Trabalho`) **promete** ter o método `executar`:
+
+      ```java
+      class Dancarino implements Trabalho {
+          public void executar(Robo r) {
+              r.virarDireita();
+              r.falar("Tchá-tchá-tchá!");
+          }
+      }
+      ```
+
+      Pense numa **tomada** 🔌: qualquer aparelho com o plugue certo funciona nela,
+      seja um ventilador ou um carregador. Do mesmo jeito, qualquer classe que implementa
+      `Trabalho` pode ser usada como um `Trabalho`!
+    dica: |
+      No Mensageiro: `while (!r.chegou()) { r.andar(); }` e depois `r.falar("Cheguei!");`
+    codigoInicial: |
+      import jogo.*;
+
+      interface Trabalho {
+          void executar(Robo r);
+      }
+
+      class Coletor implements Trabalho {
+          public void executar(Robo r) {
+              while (r.frenteLivre()) {
+                  r.andar();
+                  if (r.temMoeda()) {
+                      r.pegarMoeda();
+                  }
+              }
+          }
+      }
+
+      class Mensageiro implements Trabalho {
+          public void executar(Robo r) {
+              // Ande até a bandeira e fale "Cheguei!"
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo ana = new Robo("Ana", "amarelo");
+              Robo teo = new Robo("Teo", "roxo");
+
+              Trabalho trabalhoDaAna = new Coletor();
+              Trabalho trabalhoDoTeo = new Mensageiro();
+
+              trabalhoDaAna.executar(ana);
+              trabalhoDoTeo.executar(teo);
+          }
+      }
+    solucao: |
+      import jogo.*;
+
+      interface Trabalho {
+          void executar(Robo r);
+      }
+
+      class Coletor implements Trabalho {
+          public void executar(Robo r) {
+              while (r.frenteLivre()) {
+                  r.andar();
+                  if (r.temMoeda()) {
+                      r.pegarMoeda();
+                  }
+              }
+          }
+      }
+
+      class Mensageiro implements Trabalho {
+          public void executar(Robo r) {
+              while (!r.chegou()) {
+                  r.andar();
+              }
+              r.falar("Cheguei!");
+          }
+      }
+
+      public class Missao {
+          public static void main(String[] args) {
+              Robo ana = new Robo("Ana", "amarelo");
+              Robo teo = new Robo("Teo", "roxo");
+
+              Trabalho trabalhoDaAna = new Coletor();
+              Trabalho trabalhoDoTeo = new Mensageiro();
+
+              trabalhoDaAna.executar(ana);
+              trabalhoDoTeo.executar(teo);
+          }
+      }
+    mapa:
+      - "########"
+      - "#RMMMM.#"
+      - "########"
+      - "#R....F#"
+      - "########"
+    objetivos:
+      - tipo: moedas
+      - tipo: chegar
+      - tipo: falar
+        texto: "Cheguei!"
+    requisitos:
+      - padrao: 'implements\s+Trabalho'
+        mensagem: As classes de trabalho precisam implementar a interface Trabalho.
