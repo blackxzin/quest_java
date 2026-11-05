@@ -1,14 +1,25 @@
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { lazy, Suspense, useEffect, useState, useSyncExternalStore } from 'react';
 import { carregarModulos, type Modulo } from './api';
 import { Byte } from './components/Byte';
 import { PaginaDicionario } from './pages/Dicionario';
 import { PaginaInicio } from './pages/Inicio';
 import { modulosOficina } from './laboratorio/catalogo';
-import { PaginaOficina } from './pages/Oficina';
-import { PaginaLicao } from './pages/Licao';
 import { liberada, licoesEmOrdem, PaginaMapa } from './pages/Mapa';
 import { ouvirProgresso, versaoProgresso } from './progresso';
 import { ir, useRota } from './rotas';
+
+// O editor (CodeMirror) só é baixado quando o aluno abre uma missão.
+const PaginaOficina = lazy(() => import('./pages/Oficina').then((m) => ({ default: m.PaginaOficina })));
+const PaginaLicao = lazy(() => import('./pages/Licao').then((m) => ({ default: m.PaginaLicao })));
+
+function Carregando() {
+  return (
+    <div className="carregando">
+      <Byte humor="pensando" tamanho={120} />
+      <p>Carregando a missão...</p>
+    </div>
+  );
+}
 
 export function App() {
   const rota = useRota();
@@ -70,14 +81,22 @@ export function App() {
   const todas = licoesEmOrdem(modulos).filter(l => l.id.startsWith('git-') === licao.id.startsWith('git-') && l.id.startsWith('docker-') === licao.id.startsWith('docker-'));
   const i = todas.findIndex((l) => l.id === licao.id);
   const proxima = i >= 0 && i + 1 < todas.length ? todas[i + 1] : null;
-  if (licao.tipo === 'terminal') return <PaginaOficina key={licao.id} modulo={modulo} licao={licao} proxima={proxima} />;
+  if (licao.tipo === 'terminal') {
+    return (
+      <Suspense fallback={<Carregando />}>
+        <PaginaOficina key={licao.id} modulo={modulo} licao={licao} proxima={proxima} />
+      </Suspense>
+    );
+  }
   return (
-    <PaginaLicao
-      key={licao.id}
-      modulo={modulo}
-      licao={licao}
-      proxima={licao.livre ? null : proxima}
-      posicao={{ atual: modulo.licoes.indexOf(licao) + 1, total: modulo.licoes.length }}
-    />
+    <Suspense fallback={<Carregando />}>
+      <PaginaLicao
+        key={licao.id}
+        modulo={modulo}
+        licao={licao}
+        proxima={licao.livre ? null : proxima}
+        posicao={{ atual: modulo.licoes.indexOf(licao) + 1, total: modulo.licoes.length }}
+      />
+    </Suspense>
   );
 }
