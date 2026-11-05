@@ -1,5 +1,7 @@
 # ☕ JavaQuest: aprenda Java programando um robô
 
+[![CI](https://github.com/blackxzin/quest_java/actions/workflows/ci.yml/badge.svg)](https://github.com/blackxzin/quest_java/actions/workflows/ci.yml)
+
 O JavaQuest é uma IDE no navegador para aprender **Java de verdade** com jogos 2D. O aluno dá ordens
 para o **Byte**, um robozinho explorador, e vai da primeira linha de código até **Orientação a
 Objetos**, **Spring Boot** e desafios de dados. Há também trilhas independentes de **Git** e **Docker**, com terminal simulado e revisão interativa. As explicações são escritas para que até uma criança entenda.
