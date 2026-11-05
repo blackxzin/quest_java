@@ -5,7 +5,7 @@ plugins { id 'java-library' }
 java { toolchain { languageVersion = JavaLanguageVersion.of(21) } }
 
 dependencies {
-    implementation platform('org.springframework.boot:spring-boot-dependencies:4.1.1')
+    implementation platform('org.springframework.boot:spring-boot-dependencies:4.1.2')
     // As anotações do Spring (@RestController, @GetMapping...) são as de verdade:
     // o código que o aluno escreve na Loja funciona igualzinho num projeto Spring Boot real.
     api 'org.springframework:spring-web'
