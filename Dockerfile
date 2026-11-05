@@ -1,5 +1,5 @@
 # 1) Constrói o site (React)
-FROM node:22-alpine AS site
+FROM node:26-alpine AS site
 WORKDIR /app/frontend
 COPY frontend/package*.json ./
 RUN npm ci
