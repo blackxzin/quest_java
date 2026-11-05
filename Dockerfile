@@ -7,14 +7,14 @@ COPY frontend/ ./
 RUN npm run build
 
 # 2) Constrói o servidor (Spring Boot) com o site dentro, e o motor do jogo
-FROM eclipse-temurin:21-jdk AS servidor
+FROM eclipse-temurin:25-jdk AS servidor
 WORKDIR /app
 COPY . .
 COPY --from=site /app/frontend/dist frontend/dist
 RUN ./gradlew :servidor:bootJar :motor:sandboxLibs --no-daemon
 
 # 3) Imagem final. Precisa de JDK (não só JRE), porque o servidor compila o código dos alunos.
-FROM eclipse-temurin:21-jdk
+FROM eclipse-temurin:25-jdk
 WORKDIR /app
 COPY --from=servidor /app/servidor/build/libs/servidor.jar app.jar
 COPY --from=servidor /app/motor/build/sandbox-libs sandbox-libs
